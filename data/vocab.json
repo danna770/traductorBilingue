@@ -1,0 +1,124 @@
+{
+  "sections": [
+    {
+      "id": "sec-trabajo",
+      "name": "Trabajo y Reuniones",
+      "color": "yellow"
+    },
+    {
+      "id": "sec-lectura",
+      "name": "Lectura Actual",
+      "color": "sky"
+    },
+    {
+      "id": "sec-phrasal",
+      "name": "Phrasal Verbs",
+      "color": "mint"
+    }
+  ],
+  "words": [
+    {
+      "id": "w-rely",
+      "sectionId": "sec-trabajo",
+      "en": "rely",
+      "es": "confiar / depender",
+      "pos": "verb",
+      "prepositions": [
+        "on",
+        "upon"
+      ],
+      "defEn": "To depend on someone or something with full trust or confidence.",
+      "defEs": "Depender de alguien o algo con plena confianza para que cumpla o funcione.",
+      "exampleEn": "We rely on clear requirements before starting development.",
+      "exampleEs": "Dependemos de requerimientos claros antes de empezar el desarrollo.",
+      "freq": 92,
+      "activeLang": "es",
+      "createdAt": 1763600000000
+    },
+    {
+      "id": "w-deadline",
+      "sectionId": "sec-trabajo",
+      "en": "deadline",
+      "es": "fecha límite / plazo",
+      "pos": "noun",
+      "prepositions": [
+        "for",
+        "by"
+      ],
+      "defEn": "The latest time or date by which a task or project must be completed.",
+      "defEs": "El momento o fecha máxima en la que debe entregarse o completarse una tarea.",
+      "exampleEn": "The deadline for the final report is Friday afternoon.",
+      "exampleEs": "La fecha límite para el informe final es el viernes por la tarde.",
+      "freq": 94,
+      "activeLang": "es",
+      "createdAt": 1763600001000
+    },
+    {
+      "id": "w-comply",
+      "sectionId": "sec-trabajo",
+      "en": "comply",
+      "es": "cumplir / acatar",
+      "pos": "verb",
+      "prepositions": [
+        "with"
+      ],
+      "defEn": "To act in accordance with a rule, standard, or request.",
+      "defEs": "Actuar conforme a una norma, estándar, requisito o pedido formal.",
+      "exampleEn": "All teams must comply with the updated security guidelines.",
+      "exampleEs": "Todos los equipos deben cumplir con las pautas de seguridad actualizadas.",
+      "freq": 83,
+      "activeLang": "es",
+      "createdAt": 1763600002000
+    },
+    {
+      "id": "w-insight",
+      "sectionId": "sec-lectura",
+      "en": "insight",
+      "es": "perspectiva / hallazgo clave",
+      "pos": "noun",
+      "prepositions": [
+        "into"
+      ],
+      "defEn": "A deep and clear understanding of a complex situation or problem.",
+      "defEs": "Comprensión profunda y clara de una situación, dato o problema complejo.",
+      "exampleEn": "User interviews gave us valuable insight into their daily workflow.",
+      "exampleEs": "Las entrevistas nos dieron una perspectiva valiosa sobre su flujo diario.",
+      "freq": 86,
+      "activeLang": "es",
+      "createdAt": 1763600003000
+    },
+    {
+      "id": "w-look-forward",
+      "sectionId": "sec-phrasal",
+      "en": "look forward",
+      "es": "esperar con entusiasmo",
+      "pos": "phrasal verb",
+      "prepositions": [
+        "to"
+      ],
+      "defEn": "To feel pleased and excited about something that is going to happen.",
+      "defEs": "Anticipar o esperar algo futuro con entusiasmo o buena predisposición.",
+      "exampleEn": "I look forward to hearing your feedback on the draft.",
+      "exampleEs": "Espero con gusto tus comentarios sobre el borrador.",
+      "freq": 90,
+      "activeLang": "es",
+      "createdAt": 1763600004000
+    },
+    {
+      "id": "w-figure-out",
+      "sectionId": "sec-phrasal",
+      "en": "figure out",
+      "es": "resolver / descifrar",
+      "pos": "phrasal verb",
+      "prepositions": [],
+      "defEn": "To understand or solve something after thinking carefully about it.",
+      "defEs": "Comprender, deducir o encontrar la solución a algo tras analizarlo.",
+      "exampleEn": "Let's figure out how to simplify this onboarding step.",
+      "exampleEs": "Veamos cómo resolver la simplificación de este paso de bienvenida.",
+      "freq": 91,
+      "activeLang": "es",
+      "createdAt": 1763600005000
+    }
+  ],
+  "recent": []
+}

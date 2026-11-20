@@ -1,0 +1,3246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lector Bilingüe EN⇄ES ✿ Compañera de Lectura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sky-frame: #94C0E9;
+      --sky-accent: #7FB2E5;
+      --sky-soft: #E3F0FC;
+      --mint-soft: #D7EFE6;
+      --mint-badge: #9AD9C5;
+      --blue-royal: #1B3C8D;
+      --blue-deep: #132B68;
+      --cream-bg: #FAF3E6;
+      --cream-card: #FFFDF9;
+      --yellow-butter: #FDF1B4;
+      --yellow-soft: #FEF8D8;
+      --coral-soft: #FFE4DF;
+      --coral-ink: #A33327;
+      --text-main: #1B3C8D;
+      --text-body: #25386B;
+      --text-muted: #4E649B;
+      --border-ink: #1B3C8D;
+      --shadow-solid: 0 3px 0 #1B3C8D;
+      --shadow-card: 0 8px 22px rgba(27, 60, 141, 0.10);
+      --radius-lg: 22px;
+      --radius-md: 15px;
+      --radius-sm: 11px;
+      --radius-pill: 999px;
+    }
+
+    html[data-theme="dark"] {
+      --sky-frame: #0D1836;
+      --sky-accent: #1D356E;
+      --sky-soft: #1B2E5E;
+      --mint-soft: #163A3B;
+      --mint-badge: #2B7A72;
+      --blue-royal: #94C0E9;
+      --blue-deep: #081129;
+      --cream-bg: #111E42;
+      --cream-card: #182957;
+      --yellow-butter: #3B391E;
+      --yellow-soft: #2B2A1A;
+      --coral-soft: #472024;
+      --coral-ink: #FFB2A8;
+      --text-main: #F7F1E3;
+      --text-body: #DCE7FA;
+      --text-muted: #9DB4E0;
+      --border-ink: #94C0E9;
+      --shadow-solid: 0 3px 0 #070E22;
+      --shadow-card: 0 10px 26px rgba(4, 10, 28, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--sky-frame);
+      color: var(--text-body);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      padding: 14px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Decorative organic doodles on wide viewports (hidden in compact 1/4 screen) */
+    .bg-doodles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.9;
+    }
+    .bg-doodle-tl { position: absolute; top: 18px; left: 16px; width: 68px; }
+    .bg-doodle-br { position: absolute; bottom: 18px; right: 16px; width: 76px; }
+
+    @media (max-width: 720px) {
+      body { padding: 8px; }
+      .bg-doodles { display: none; }
+    }
+
+    .app-shell {
+      max-width: 960px;
+      margin: 0 auto;
+      background-color: var(--cream-bg);
+      border: 2.5px solid var(--border-ink);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 16px 40px rgba(19, 43, 104, 0.22);
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Iconic Checker Bar from Design System */
+    .checker-bar {
+      height: 12px;
+      width: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--sky-frame) 0px,
+        var(--sky-frame) 32px,
+        var(--blue-royal) 32px,
+        var(--blue-royal) 64px
+      );
+      border-bottom: 2px solid var(--border-ink);
+    }
+
+    html[data-theme="dark"] .checker-bar {
+      background: repeating-linear-gradient(
+        90deg,
+        #223C7A 0px,
+        #223C7A 32px,
+        #94C0E9 32px,
+        #94C0E9 64px
+      );
+    }
+
+    /* Header optimized for 1/4 screen */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--cream-bg);
+      border-bottom: 1.5px dashed rgba(27, 60, 141, 0.28);
+    }
+
+    html[data-theme="dark"] .app-header {
+      border-bottom-color: rgba(148, 192, 233, 0.25);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .brand-flower {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--sky-frame);
+      border: 2px solid var(--border-ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue-royal);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    html[data-theme="dark"] .brand-flower {
+      background: var(--sky-soft);
+      color: #FDF1B4;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-sub {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      background: var(--mint-soft);
+      color: var(--text-main);
+      border: 1.5px solid var(--border-ink);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #1B9E6B;
+      display: inline-block;
+    }
+
+    .status-dot.web {
+      background: #2C6AE5;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--border-ink);
+      background: var(--cream-card);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.14s ease;
+      box-shadow: 0 2px 0 var(--border-ink);
+      user-select: none;
+    }
+
+    .btn-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-solid);
+    }
+
+    .btn-pill:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 var(--border-ink);
+    }
+
+    .btn-pill.yellow { background: var(--yellow-butter); }
+    .btn-pill.sky { background: var(--sky-soft); }
+    .btn-pill.mint { background: var(--mint-badge); color: #132B68; }
+    .btn-pill.dashed { border-style: dashed; }
+    .btn-pill.royal {
+      background: var(--blue-royal);
+      color: #FFFDF9;
+    }
+    html[data-theme="dark"] .btn-pill.royal {
+      color: #0D1836;
+    }
+
+    /* Cobalt Bento Navigation Dock (inspired by right bento card in reference) */
+    .nav-dock-wrap {
+      padding: 12px 14px 4px;
+    }
+
+    .nav-dock {
+      background: var(--blue-royal);
+      border-radius: 16px;
+      padding: 7px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      box-shadow: 4px 4px 0 var(--sky-accent);
+      border: 2px solid var(--border-ink);
+    }
+
+    html[data-theme="dark"] .nav-dock {
+      background: #0A142F;
+      box-shadow: 4px 4px 0 #1E3A7A;
+    }
+
+    .nav-tab {
+      border: 2px solid transparent;
+      border-radius: 11px;
+      padding: 8px 6px;
+      background: rgba(255, 253, 249, 0.14);
+      color: #FFFDF9;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.16s ease;
+    }
+
+    .nav-tab:hover {
+      background: rgba(255, 253, 249, 0.24);
+    }
+
+    .nav-tab.active[data-tab="translate"] {
+      background: var(--yellow-butter);
+      color: var(--text-main);
+      border-color: var(--border-ink);
+    }
+
+    .nav-tab.active[data-tab="saved"] {
+      background: var(--sky-frame);
+      color: #132B68;
+      border-color: var(--border-ink);
+    }
+
+    .nav-tab.active[data-tab="practice"] {
+      background: var(--mint-badge);
+      color: #132B68;
+      border-color: var(--border-ink);
+    }
+
+    html[data-theme="dark"] .nav-tab.active[data-tab="translate"] {
+      background: #3B391E;
+      color: #FDF1B4;
+    }
+    html[data-theme="dark"] .nav-tab.active[data-tab="saved"] {
+      background: #23438A;
+      color: #E3F0FC;
+    }
+    html[data-theme="dark"] .nav-tab.active[data-tab="practice"] {
+      background: #1C5953;
+      color: #D7EFE6;
+    }
+    html[data-theme="dark"] .btn-pill.mint,
+    html[data-theme="dark"] .lang-tag.mint,
+    html[data-theme="dark"] .quiz-opt-btn.correct {
+      color: #FAF3E6;
+    }
+
+    .tab-count {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: var(--radius-pill);
+      background: rgba(27, 60, 141, 0.15);
+      font-weight: 700;
+    }
+
+    /* Main Panel Area */
+    .main-content {
+      padding: 12px 14px 18px;
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeSlide 0.18s ease;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Ceramic Cards */
+    .card {
+      background: var(--cream-card);
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 12px;
+    }
+
+    .card-yellow { background: var(--yellow-soft); }
+    .card-sky { background: var(--sky-soft); }
+    .card-mint { background: var(--mint-soft); }
+
+    /* Direction selector & Search Box */
+    .dir-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .dir-pills {
+      display: inline-flex;
+      background: var(--cream-bg);
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-pill);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .dir-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .dir-btn.active {
+      background: var(--blue-royal);
+      color: #FFFDF9;
+    }
+    html[data-theme="dark"] .dir-btn.active {
+      color: #0D1836;
+    }
+
+    .search-box-wrap {
+      position: relative;
+      display: flex;
+      gap: 6px;
+      align-items: stretch;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 32px 10px 12px;
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-sm);
+      background: var(--cream-bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      outline: none;
+      transition: box-shadow 0.15s ease;
+    }
+
+    .search-input:focus {
+      box-shadow: 0 0 0 3px rgba(148, 192, 233, 0.55);
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 7px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: var(--sky-soft);
+      color: var(--text-main);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+    .clear-btn.visible { display: inline-flex; }
+
+    .search-actions-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .suggestions-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid var(--border-ink);
+      background: var(--cream-bg);
+      color: var(--text-main);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+
+    .chip:hover {
+      background: var(--yellow-butter);
+    }
+
+    .chip.recent {
+      background: var(--sky-soft);
+    }
+
+    /* Translation Result Card */
+    .result-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1.5px dashed rgba(27, 60, 141, 0.25);
+    }
+
+    .word-pair {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .word-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .word-en-big {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    .word-es-big {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--text-body);
+    }
+
+    .lang-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border-ink);
+      background: var(--yellow-butter);
+      color: var(--text-main);
+    }
+
+    .lang-tag.sky { background: var(--sky-soft); }
+    .lang-tag.mint { background: var(--mint-badge); color: #132B68; }
+
+    .speak-btn {
+      border: 1.5px solid var(--border-ink);
+      background: var(--cream-bg);
+      color: var(--text-main);
+      border-radius: var(--radius-pill);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .speak-btn:hover { background: var(--yellow-butter); }
+
+    .freq-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .freq-pill {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid var(--border-ink);
+      background: var(--mint-soft);
+      color: var(--text-main);
+    }
+
+    .freq-meter {
+      width: 78px;
+      height: 6px;
+      background: var(--cream-bg);
+      border: 1px solid var(--border-ink);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .freq-fill {
+      height: 100%;
+      background: var(--blue-royal);
+      border-radius: var(--radius-pill);
+    }
+
+    .meanings-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .meanings-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .meaning-box {
+      border: 1.5px solid var(--border-ink);
+      border-radius: var(--radius-sm);
+      padding: 9px 10px;
+    }
+
+    .meaning-box.es { background: var(--yellow-soft); }
+    .meaning-box.en { background: var(--sky-soft); }
+
+    .meaning-label {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .meaning-text {
+      font-size: 0.85rem;
+      color: var(--text-body);
+    }
+
+    .meaning-ex {
+      margin-top: 5px;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--text-muted);
+      border-left: 2.5px solid var(--border-ink);
+      padding-left: 7px;
+    }
+
+    .prep-box {
+      margin-top: 8px;
+      border: 1.5px solid var(--border-ink);
+      border-radius: var(--radius-sm);
+      background: var(--mint-soft);
+      padding: 8px 10px;
+    }
+
+    .prep-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 5px;
+    }
+
+    .prep-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: var(--cream-card);
+      border: 1.5px solid var(--border-ink);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .save-bar {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1.5px dashed rgba(27, 60, 141, 0.25);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .select-input, .text-input, .textarea-input {
+      padding: 7px 10px;
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-sm);
+      background: var(--cream-bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .select-input { cursor: pointer; }
+
+    /* Guardados Section */
+    .sections-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .sec-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--border-ink);
+      background: var(--cream-card);
+      color: var(--text-main);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .sec-chip.active {
+      background: var(--blue-royal);
+      color: #FFFDF9;
+      box-shadow: 0 2px 0 var(--sky-accent);
+    }
+    html[data-theme="dark"] .sec-chip.active { color: #0D1836; }
+
+    .sec-chip[data-color="yellow"]:not(.active) { background: var(--yellow-butter); }
+    .sec-chip[data-color="sky"]:not(.active) { background: var(--sky-soft); }
+    .sec-chip[data-color="mint"]:not(.active) { background: var(--mint-soft); }
+
+    .saved-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .saved-tip {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      background: var(--yellow-soft);
+      border: 1.5px dashed var(--border-ink);
+      border-radius: var(--radius-sm);
+      padding: 6px 9px;
+      margin-bottom: 9px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    /* Exact 4-column table */
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-md);
+      background: var(--cream-card);
+      box-shadow: var(--shadow-card);
+    }
+
+    .vocab-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 410px;
+      font-size: 0.81rem;
+    }
+
+    .vocab-table thead th {
+      background: var(--yellow-butter);
+      color: var(--text-main);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      text-align: left;
+      padding: 8px 8px;
+      border-bottom: 2px solid var(--border-ink);
+      border-right: 1.5px solid rgba(27, 60, 141, 0.22);
+      white-space: nowrap;
+    }
+
+    .vocab-table thead th:last-child { border-right: none; }
+
+    .vocab-table tbody td {
+      padding: 8px 8px;
+      vertical-align: top;
+      border-bottom: 1.5px dashed rgba(27, 60, 141, 0.2);
+      border-right: 1.5px solid rgba(27, 60, 141, 0.12);
+    }
+
+    .vocab-table tbody td:last-child { border-right: none; }
+    .vocab-table tbody tr:last-child td { border-bottom: none; }
+    .vocab-table tbody tr:hover { background: rgba(148, 192, 233, 0.12); }
+
+    .cell-word-btn {
+      display: inline-block;
+      text-align: left;
+      border: 1.5px solid transparent;
+      background: transparent;
+      color: var(--text-main);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      word-break: break-word;
+    }
+
+    .cell-word-btn:hover {
+      background: var(--sky-soft);
+      border-color: var(--border-ink);
+    }
+
+    .cell-word-btn.selected-lang {
+      background: var(--yellow-butter);
+      border-color: var(--border-ink);
+      box-shadow: 0 2px 0 var(--border-ink);
+    }
+
+    .cell-word-es {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .mini-meta {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 3px;
+      flex-wrap: wrap;
+    }
+
+    .freq-mini {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 6px;
+      background: var(--mint-soft);
+      border: 1px solid var(--border-ink);
+      color: var(--text-main);
+    }
+
+    .mini-icon-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.78rem;
+      padding: 1px 4px;
+      border-radius: 6px;
+      color: var(--text-muted);
+    }
+    .mini-icon-btn:hover { background: var(--sky-soft); color: var(--text-main); }
+
+    .prep-tag-sm {
+      display: inline-block;
+      padding: 2px 6px;
+      margin: 1px 2px 2px 0;
+      border-radius: var(--radius-pill);
+      background: var(--mint-soft);
+      border: 1px solid var(--border-ink);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.72rem;
+    }
+
+    .def-cell-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .def-lang-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .def-text {
+      font-size: 0.79rem;
+      line-height: 1.4;
+      color: var(--text-body);
+    }
+
+    .row-actions-inline {
+      display: inline-flex;
+      gap: 2px;
+      opacity: 0.75;
+    }
+    .row-actions-inline:hover { opacity: 1; }
+
+    /* Practice Section */
+    .practice-modes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .mode-card {
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      cursor: pointer;
+      text-align: left;
+      background: var(--cream-bg);
+      color: var(--text-main);
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
+      box-shadow: 0 2px 0 var(--border-ink);
+    }
+
+    .mode-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-solid);
+    }
+
+    .mode-card.yellow { background: var(--yellow-soft); }
+    .mode-card.sky { background: var(--sky-soft); }
+    .mode-card.mint { background: var(--mint-soft); }
+    .mode-card.cream { background: var(--cream-card); }
+
+    .mode-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mode-desc {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .quiz-progress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 8px;
+      background: var(--cream-bg);
+      border: 1.5px solid var(--border-ink);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--mint-badge);
+      transition: width 0.25s ease;
+    }
+
+    .quiz-prompt-box {
+      background: var(--yellow-soft);
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .quiz-word {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 4px 0;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+
+    .quiz-opt-btn {
+      width: 100%;
+      text-align: left;
+      padding: 10px 12px;
+      border: 2px solid var(--border-ink);
+      border-radius: var(--radius-sm);
+      background: var(--cream-card);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      box-shadow: 0 2px 0 var(--border-ink);
+    }
+
+    .quiz-opt-btn:hover:not(:disabled) {
+      background: var(--sky-soft);
+      transform: translateY(-1px);
+    }
+
+    .quiz-opt-btn.correct {
+      background: var(--mint-badge);
+      color: #132B68;
+    }
+
+    .quiz-opt-btn.wrong {
+      background: var(--coral-soft);
+      color: var(--coral-ink);
+    }
+
+    .flashcard {
+      border: 2.5px solid var(--border-ink);
+      border-radius: var(--radius-md);
+      background: var(--cream-card);
+      padding: 18px 14px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 5px 0 var(--border-ink);
+      min-height: 175px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease;
+    }
+
+    .flashcard.flipped {
+      background: var(--yellow-soft);
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(19, 43, 104, 0.55);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 100;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      width: 100%;
+      max-width: 440px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--cream-bg);
+      border: 2.5px solid var(--border-ink);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: 0 18px 44px rgba(10, 22, 58, 0.35);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px dashed rgba(27, 60, 141, 0.25);
+    }
+
+    .modal-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 9px;
+    }
+
+    .form-field label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--blue-royal);
+      color: #FFFDF9;
+      border: 2px solid #FFFDF9;
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.82rem;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+    html[data-theme="dark"] .toast {
+      color: #0D1836;
+      border-color: #0D1836;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 20px 12px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2.5px solid var(--sky-soft);
+      border-top-color: var(--blue-royal);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <!-- Subtle background doodles matching the design language -->
+  <div class="bg-doodles" aria-hidden="true">
+    <svg class="bg-doodle-tl" viewBox="0 0 100 100" fill="none">
+      <path d="M50 16 C58 2, 74 14, 62 32 C82 26, 90 46, 70 54 C86 68, 70 86, 54 72 C48 92, 26 86, 34 66 C14 70, 8 48, 28 42 C14 26, 32 10, 44 26 Z" fill="#1B3C8D" opacity="0.22"/>
+    </svg>
+    <svg class="bg-doodle-br" viewBox="0 0 120 120" fill="none">
+      <path d="M18 84 C34 54, 52 102, 74 66 C92 38, 102 74, 110 48" stroke="#1B3C8D" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+    </svg>
+  </div>
+
+  <div class="app-shell">
+    <div class="checker-bar"></div>
+
+    <header class="app-header">
+      <div class="brand-group">
+        <div class="brand-flower" title="Lector Bilingüe">✿</div>
+        <div class="brand-title-wrap">
+          <span class="brand-title">Lector Bilingüe</span>
+          <span class="brand-sub">Compañera EN ⇄ ES · 1/4 pantalla</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span class="pill-status" id="apiStatusPill" title="Estado de conexión con APIs">
+          <span class="status-dot web" id="apiStatusDot"></span>
+          <span id="apiStatusText">APIs en vivo</span>
+        </span>
+        <button class="btn-pill mint" id="openSyncModalBtn" type="button" title="Sincronización automática en la nube (GitHub Gist)">☁ <span id="syncBtnLabel">Sync</span></button>
+        <button class="btn-pill yellow dashed" id="openAiModalBtn" type="button" title="Configurar IA o diccionario">⚙ IA</button>
+        <button class="btn-pill sky" id="downloadPcBtn" type="button" title="Descargar versión autónoma para abrir directo en tu PC">⬇ PC</button>
+        <button class="btn-pill" id="themeToggleBtn" type="button" title="Alternar modo claro / oscuro">🌙</button>
+      </div>
+    </header>
+
+    <div class="nav-dock-wrap">
+      <nav class="nav-dock" aria-label="Secciones principales">
+        <button class="nav-tab active" data-tab="translate" type="button">🔍 Traducir</button>
+        <button class="nav-tab" data-tab="saved" type="button">📚 Guardados <span class="tab-count" id="savedCountBadge">0</span></button>
+        <button class="nav-tab" data-tab="practice" type="button">🎯 Práctica</button>
+      </nav>
+    </div>
+
+    <main class="main-content">
+      <!-- ==================== TAB 1: TRADUCTOR ==================== -->
+      <section class="tab-panel active" id="panel-translate">
+        <div class="card">
+          <div class="dir-row">
+            <div class="dir-pills" role="group" aria-label="Dirección de traducción">
+              <button class="dir-btn active" data-dir="auto" type="button">Auto</button>
+              <button class="dir-btn" data-dir="en-es" type="button">EN → ES</button>
+              <button class="dir-btn" data-dir="es-en" type="button">ES → EN</button>
+            </div>
+            <span style="font-size:0.72rem;color:var(--text-muted);font-weight:600;" id="engineHint">Motor: Diccionario + 3 APIs</span>
+          </div>
+
+          <div class="search-box-wrap">
+            <div class="search-input-wrap">
+              <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Escribí una palabra en inglés o español..."
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button type="button" class="clear-btn" id="clearSearchBtn" aria-label="Limpiar búsqueda">×</button>
+            </div>
+            <button type="button" class="btn-pill royal" id="translateBtn">Buscar</button>
+          </div>
+
+          <div class="search-actions-row">
+            <button type="button" class="btn-pill yellow" id="pasteBtn">📋 Pegar y buscar</button>
+            <button type="button" class="btn-pill" id="quickAddManualBtn">＋ Manual</button>
+          </div>
+
+          <div class="suggestions-box" id="suggestionsBox"></div>
+        </div>
+
+        <div id="resultArea">
+          <div class="card card-yellow" style="text-align:center; padding:16px;">
+            <div style="font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:700;color:var(--text-main);">
+              ✿ Tu compañera de lectura lista
+            </div>
+            <p style="font-size:0.82rem;color:var(--text-body);margin-top:4px;">
+              Buscá cualquier palabra (ej. <strong>rely</strong>, <strong>insight</strong>, <strong>comply</strong> o <strong>plazo</strong>) para ver su traducción, definiciones en inglés y español, preposiciones frecuentes y nivel de uso.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: GUARDADOS ==================== -->
+      <section class="tab-panel" id="panel-saved">
+        <div class="card" style="padding:10px;">
+          <div class="sections-bar" id="sectionsBar"></div>
+
+          <div class="saved-toolbar">
+            <input
+              type="text"
+              id="savedFilterInput"
+              class="text-input"
+              placeholder="Filtrar guardados..."
+              style="flex:1; min-width:130px; padding:5px 9px; font-size:0.8rem;"
+            />
+            <div style="display:flex; gap:5px; flex-wrap:wrap;">
+              <button class="btn-pill yellow" id="newSectionBtn" type="button">＋ Sección</button>
+              <button class="btn-pill" id="renameSectionBtn" type="button" style="display:none;">✎ Renombrar</button>
+              <button class="btn-pill" id="deleteSectionBtn" type="button" style="display:none;">🗑 Sección</button>
+              <button class="btn-pill sky" id="addWordModalBtn" type="button">＋ Palabra</button>
+              <button class="btn-pill" id="exportJsonBtn" type="button" title="Exportar respaldo JSON">⭳ JSON</button>
+              <label class="btn-pill" style="cursor:pointer;" title="Importar respaldo JSON">
+                ⭱ JSON
+                <input type="file" id="importJsonInput" accept="application/json" style="display:none;" />
+              </label>
+            </div>
+          </div>
+
+          <div class="saved-tip">
+            <span>📊 <strong>Orden automático:</strong> más usadas → menos usadas (trabajo y vida cotidiana)</span>
+            <span>👆 <strong>Tip:</strong> tocá la palabra en Inglés o Español para ver esa definición</span>
+          </div>
+
+          <!-- EXACT 4-COLUMN ORDER: Inglés | Español | Preposiciones | Definición -->
+          <div class="table-scroll-wrap">
+            <table class="vocab-table" id="vocabTable">
+              <thead>
+                <tr>
+                  <th>Inglés</th>
+                  <th>Español</th>
+                  <th>Preposiciones</th>
+                  <th>Definición</th>
+                </tr>
+              </thead>
+              <tbody id="savedTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: PRÁCTICA ==================== -->
+      <section class="tab-panel" id="panel-practice">
+        <div class="card" id="practiceConfigCard">
+          <div class="form-field">
+            <label for="practiceSectionSelect">Elegí la sección para practicar</label>
+            <select id="practiceSectionSelect" class="select-input"></select>
+          </div>
+
+          <div style="font-size:0.78rem;font-weight:700;color:var(--text-main);margin-top:4px;">
+            Modos de práctica disponibles
+          </div>
+          <div class="practice-modes-grid">
+            <button class="mode-card yellow" data-mode="mc" type="button">
+              <div class="mode-title">🎯 Multiple Choice</div>
+              <div class="mode-desc">Mixto EN ⇄ ES con opciones</div>
+            </button>
+            <button class="mode-card mint" data-mode="prep" type="button">
+              <div class="mode-title">🔗 Preposiciones</div>
+              <div class="mode-desc">Oraciones con hueco ___</div>
+            </button>
+            <button class="mode-card sky" data-mode="write" type="button">
+              <div class="mode-title">✍️ Escribir</div>
+              <div class="mode-desc">Recuerdo activo de traducción</div>
+            </button>
+            <button class="mode-card cream" data-mode="flash" type="button">
+              <div class="mode-title">🃏 Tarjetas</div>
+              <div class="mode-desc">Ambos idiomas + preposiciones</div>
+            </button>
+          </div>
+        </div>
+
+        <div id="practiceStage"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ==================== MODAL: SINCRONIZACIÓN AUTOMÁTICA ==================== -->
+  <div class="modal-backdrop" id="syncModalBackdrop">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 class="modal-title">☁ Sincronización automática (GitHub)</h2>
+        <button class="btn-pill" id="closeSyncModalBtn" type="button">✕</button>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">
+        Sincronizá automáticamente tus palabras y secciones entre tu PC, GitHub Pages y tu celular usando un <strong>Gist privado</strong> en tu cuenta de GitHub.
+      </p>
+      <div class="card card-yellow" style="font-size:0.76rem;padding:8px 10px;margin-bottom:10px;">
+        <strong>Cómo activarlo en 1 minuto:</strong><br/>
+        1. En GitHub andá a <em>Settings → Developer settings → Personal access tokens → Tokens (classic)</em>.<br/>
+        2. Creá un token marcando solo el permiso <strong>gist</strong>.<br/>
+        3. Pegalo acá abajo y tocá <strong>Conectar y sincronizar</strong>. En otro dispositivo pegás el mismo token y la app encuentra tu nube sola.
+      </div>
+      <div class="form-field">
+        <label for="syncTokenInput">Token de GitHub (permiso gist)</label>
+        <input type="password" id="syncTokenInput" class="text-input" placeholder="ghp_... o github_pat_..." />
+      </div>
+      <div class="form-field">
+        <label for="syncGistIdInput">Gist ID (opcional — se detecta o crea solo)</label>
+        <input type="text" id="syncGistIdInput" class="text-input" placeholder="Se completa automáticamente" />
+      </div>
+      <div id="syncModalStatusText" style="font-size:0.76rem;font-weight:700;color:var(--text-main);margin-bottom:8px;"></div>
+      <div style="display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;">
+        <button class="btn-pill" id="disconnectSyncBtn" type="button">Desconectar</button>
+        <button class="btn-pill sky" id="syncNowBtn" type="button">↻ Sincronizar ahora</button>
+        <button class="btn-pill royal" id="saveSyncBtn" type="button">Conectar y sincronizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: IA / CONFIGURACIÓN ==================== -->
+  <div class="modal-backdrop" id="aiModalBackdrop">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 class="modal-title">⚙ Diccionario e IA opcional</h2>
+        <button class="btn-pill" id="closeAiModalBtn" type="button">✕</button>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:10px;">
+        La app ya traduce en vivo gratis con 3 APIs lingüísticas (MyMemory + Free Dictionary + Datamuse) y diccionario integrado. Si querés potenciar modismos, preposiciones y oraciones de práctica con tu propia IA, pegá tu clave abajo (se guarda solo en tu navegador).
+      </p>
+      <div class="form-field">
+        <label for="aiProviderSelect">Proveedor de IA</label>
+        <select id="aiProviderSelect" class="select-input">
+          <option value="none">Ninguno (APIs gratuitas en vivo + diccionario)</option>
+          <option value="gemini">Google Gemini (gemini-2.5-flash)</option>
+          <option value="openai">OpenAI (gpt-4o-mini)</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="aiKeyInput">API Key (solo en tu navegador)</label>
+        <input type="password" id="aiKeyInput" class="text-input" placeholder="AIza... o sk-..." />
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px;">
+        <button class="btn-pill" id="clearAiBtn" type="button">Limpiar clave</button>
+        <button class="btn-pill royal" id="saveAiBtn" type="button">Guardar ajustes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: AGREGAR / EDITAR PALABRA ==================== -->
+  <div class="modal-backdrop" id="wordModalBackdrop">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 class="modal-title" id="wordModalTitle">＋ Agregar palabra</h2>
+        <button class="btn-pill" id="closeWordModalBtn" type="button">✕</button>
+      </div>
+      <input type="hidden" id="editWordId" />
+      <div class="form-field">
+        <label for="wEnInput">Palabra en inglés *</label>
+        <input type="text" id="wEnInput" class="text-input" placeholder="ej. rely" />
+      </div>
+      <div class="form-field">
+        <label for="wEsInput">Traducción al español *</label>
+        <input type="text" id="wEsInput" class="text-input" placeholder="ej. confiar / depender" />
+      </div>
+      <div class="form-field">
+        <label for="wPrepsInput">Preposiciones (separadas por coma, opcional)</label>
+        <input type="text" id="wPrepsInput" class="text-input" placeholder="ej. on, upon" />
+      </div>
+      <div class="form-field">
+        <label for="wDefEsInput">Definición en español</label>
+        <textarea id="wDefEsInput" class="textarea-input" rows="2" placeholder="Significado claro en español"></textarea>
+      </div>
+      <div class="form-field">
+        <label for="wDefEnInput">Definición en inglés</label>
+        <textarea id="wDefEnInput" class="textarea-input" rows="2" placeholder="Clear English definition"></textarea>
+      </div>
+      <div class="form-field">
+        <label for="wExEnInput">Ejemplo en inglés (opcional)</label>
+        <input type="text" id="wExEnInput" class="text-input" placeholder="We rely on your feedback." />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="form-field">
+          <label for="wFreqInput">Uso laboral/cotidiano (1–100)</label>
+          <input type="number" id="wFreqInput" class="text-input" min="1" max="100" value="75" />
+        </div>
+        <div class="form-field">
+          <label for="wSecSelect">Sección</label>
+          <select id="wSecSelect" class="select-input"></select>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+        <button class="btn-pill" id="cancelWordModalBtn" type="button">Cancelar</button>
+        <button class="btn-pill royal" id="saveWordModalBtn" type="button">Guardar palabra</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const STORAGE_KEY = 'lector_bilingue_v1';
+      const AI_KEY_STORAGE = 'lector_bilingue_ai_v1';
+      const SYNC_STORAGE = 'lector_bilingue_sync_v1';
+      const THEME_STORAGE = 'lector_bilingue_theme';
+      const GIST_FILENAME = 'lector-bilingue-sync.json';
+
+      const PREPOSITIONS = new Set([
+        'about', 'above', 'across', 'after', 'against', 'along', 'among', 'around',
+        'as', 'at', 'before', 'behind', 'below', 'beneath', 'beside', 'between',
+        'beyond', 'by', 'despite', 'down', 'during', 'except', 'for', 'from',
+        'in', 'inside', 'into', 'like', 'near', 'of', 'off', 'on', 'onto',
+        'out', 'outside', 'over', 'past', 'regarding', 'since', 'through',
+        'throughout', 'to', 'toward', 'towards', 'under', 'until', 'up', 'upon',
+        'with', 'within', 'without'
+      ]);
+      const GENERIC_PREPS = new Set(['of', 'in', 'to', 'for', 'with', 'on', 'at', 'by', 'from', 'as']);
+
+      // Curated built-in dictionary for instant offline/workplace/daily lookup
+      const BUILTIN_DICT = [
+        { en: 'rely', es: 'confiar / depender', pos: 'verb', prepositions: ['on', 'upon'], defEn: 'To depend on someone or something with full trust.', defEs: 'Depender de alguien o algo con plena confianza.', exampleEn: 'We rely on accurate data to make decisions.', exampleEs: 'Dependemos de datos precisos para tomar decisiones.', freq: 92 },
+        { en: 'depend', es: 'depender', pos: 'verb', prepositions: ['on', 'upon'], defEn: 'To be controlled or determined by something else.', defEs: 'Estar condicionado o determinado por otra persona o factor.', exampleEn: 'The launch date depends on final testing.', exampleEs: 'La fecha de lanzamiento depende de las pruebas finales.', freq: 95 },
+        { en: 'comply', es: 'cumplir / acatar', pos: 'verb', prepositions: ['with'], defEn: 'To act according to a rule, standard, or order.', defEs: 'Actuar conforme a una norma, estándar o pedido.', exampleEn: 'Every vendor must comply with privacy standards.', exampleEs: 'Cada proveedor debe cumplir con los estándares de privacidad.', freq: 83 },
+        { en: 'deadline', es: 'fecha límite / plazo', pos: 'noun', prepositions: ['for', 'by'], defEn: 'The latest time or date by which something must be finished.', defEs: 'Fecha u hora máxima para completar o entregar algo.', exampleEn: 'The deadline for submitting invoices is Monday.', exampleEs: 'La fecha límite para enviar facturas es el lunes.', freq: 94 },
+        { en: 'insight', es: 'perspectiva / hallazgo clave', pos: 'noun', prepositions: ['into'], defEn: 'A clear, deep understanding of a complex situation.', defEs: 'Comprensión profunda y valiosa de un tema o situación.', exampleEn: 'The report offers great insight into customer habits.', exampleEs: 'El informe ofrece una gran perspectiva sobre los hábitos del cliente.', freq: 86 },
+        { en: 'look forward', es: 'esperar con entusiasmo', pos: 'phrasal verb', prepositions: ['to'], defEn: 'To feel happy and excited about something upcoming.', defEs: 'Esperar algo futuro con gusto o entusiasmo.', exampleEn: 'I look forward to meeting you tomorrow.', exampleEs: 'Espero con gusto reunirme contigo mañana.', freq: 90 },
+        { en: 'figure out', es: 'resolver / descifrar', pos: 'phrasal verb', prepositions: [], defEn: 'To understand or find the answer to something.', defEs: 'Comprender o encontrar la solución a un problema.', exampleEn: 'We need to figure out why the export failed.', exampleEs: 'Necesitamos resolver por qué falló la exportación.', freq: 91 },
+        { en: 'follow up', es: 'hacer seguimiento', pos: 'phrasal verb', prepositions: ['on', 'with'], defEn: 'To check progress or continue communication after an earlier action.', defEs: 'Dar continuidad o revisar el avance de un asunto pendiente.', exampleEn: 'I will follow up with the client on Friday.', exampleEs: 'Haré seguimiento con el cliente el viernes.', freq: 93 },
+        { en: 'carry out', es: 'llevar a cabo / ejecutar', pos: 'phrasal verb', prepositions: [], defEn: 'To perform or complete a task, plan, or study.', defEs: 'Realizar o ejecutar una tarea, plan o análisis.', exampleEn: 'The team will carry out a usability test.', exampleEs: 'El equipo llevará a cabo una prueba de usabilidad.', freq: 87 },
+        { en: 'aware', es: 'consciente / al tanto', pos: 'adjective', prepositions: ['of'], defEn: 'Having knowledge or perception of a situation or fact.', defEs: 'Que conoce o está informado sobre algo.', exampleEn: 'Are you aware of the schedule change?', exampleEs: '¿Estás al tanto del cambio de horario?', freq: 91 },
+        { en: 'responsible', es: 'responsable', pos: 'adjective', prepositions: ['for'], defEn: 'Having the duty to deal with or take care of something.', defEs: 'Que tiene a su cargo el cumplimiento o cuidado de algo.', exampleEn: 'She is responsible for onboarding new hires.', exampleEs: 'Ella es responsable de incorporar a los nuevos ingresos.', freq: 93 },
+        { en: 'capable', es: 'capaz', pos: 'adjective', prepositions: ['of'], defEn: 'Having the ability, skill, or quality to do something.', defEs: 'Que tiene la aptitud o habilidad para lograr algo.', exampleEn: 'Our platform is capable of handling high traffic.', exampleEs: 'Nuestra plataforma es capaz de soportar alto tráfico.', freq: 86 },
+        { en: 'consistent', es: 'coherente / constante', pos: 'adjective', prepositions: ['with'], defEn: 'Acting or done in the same way over time; compatible.', defEs: 'Que mantiene coherencia o regularidad; compatible con algo.', exampleEn: 'The design is consistent with our brand guide.', exampleEs: 'El diseño es coherente con nuestra guía de marca.', freq: 85 },
+        { en: 'eligible', es: 'elegible / habilitado', pos: 'adjective', prepositions: ['for'], defEn: 'Having the right to do or obtain something.', defEs: 'Que cumple los requisitos para acceder a algo.', exampleEn: 'Full-time staff are eligible for the bonus.', exampleEs: 'El personal de tiempo completo es elegible para el bono.', freq: 78 },
+        { en: 'focus', es: 'enfocarse / enfoque', pos: 'verb', prepositions: ['on'], defEn: 'To direct your attention or effort toward something specific.', defEs: 'Concentrar la atención o el esfuerzo en algo concreto.', exampleEn: 'Let us focus on the top three priorities.', exampleEs: 'Enfoquémonos en las tres prioridades principales.', freq: 96 },
+        { en: 'succeed', es: 'tener éxito / lograr', pos: 'verb', prepositions: ['in'], defEn: 'To achieve the desired aim or result.', defEs: 'Alcanzar el resultado deseado o triunfar en algo.', exampleEn: 'She succeeded in negotiating a better contract.', exampleEs: 'Ella logró negociar un mejor contrato.', freq: 88 },
+        { en: 'contribute', es: 'contribuir / aportar', pos: 'verb', prepositions: ['to'], defEn: 'To give something (time, ideas, money) to help achieve a result.', defEs: 'Aportar ideas, esfuerzo o recursos hacia un fin común.', exampleEn: 'Everyone can contribute to the shared notes.', exampleEs: 'Todos pueden aportar a las notas compartidas.', freq: 87 },
+        { en: 'refer', es: 'referirse / remitir', pos: 'verb', prepositions: ['to'], defEn: 'To mention or direct attention to a source or person.', defEs: 'Hacer mención o dirigir a una fuente o persona.', exampleEn: 'Please refer to page four for pricing details.', exampleEs: 'Por favor remitite a la página cuatro para ver los precios.', freq: 89 },
+        { en: 'apply', es: 'aplicar / postularse', pos: 'verb', prepositions: ['for', 'to'], defEn: 'To make a formal request or put something into practical use.', defEs: 'Postularse formalmente o poner en práctica algo.', exampleEn: 'He decided to apply for the product analyst role.', exampleEs: 'Decidió postularse para el puesto de analista de producto.', freq: 94 },
+        { en: 'apologize', es: 'disculparse', pos: 'verb', prepositions: ['for', 'to'], defEn: 'To say you are sorry for a mistake or inconvenience.', defEs: 'Pedir disculpas por un error o inconveniente.', exampleEn: 'We apologize for the delay in our reply.', exampleEs: 'Nos disculpamos por la demora en nuestra respuesta.', freq: 86 },
+        { en: 'insist', es: 'insistir', pos: 'verb', prepositions: ['on'], defEn: 'To demand something firmly and refuse to accept no.', defEs: 'Mantenerse firme en pedir o afirmar algo.', exampleEn: 'The client insisted on weekly status calls.', exampleEs: 'El cliente insistió en tener llamadas semanales de estado.', freq: 82 },
+        { en: 'prevent', es: 'prevenir / impedir', pos: 'verb', prepositions: ['from'], defEn: 'To stop something from happening or someone from doing something.', defEs: 'Evitar que algo ocurra o impedir una acción.', exampleEn: 'Good backups prevent data from being lost.', exampleEs: 'Las buenas copias evitan que se pierdan datos.', freq: 89 },
+        { en: 'belong', es: 'pertenecer', pos: 'verb', prepositions: ['to'], defEn: 'To be the property of or a member of a group.', defEs: 'Ser propiedad de alguien o formar parte de un grupo.', exampleEn: 'Those files belong to the marketing folder.', exampleEs: 'Esos archivos pertenecen a la carpeta de marketing.', freq: 88 },
+        { en: 'consist', es: 'consistir', pos: 'verb', prepositions: ['of', 'in'], defEn: 'To be formed or made up of specified elements.', defEs: 'Estar compuesto o formado por determinados elementos.', exampleEn: 'The course consists of six practical modules.', exampleEs: 'El curso consiste en seis módulos prácticos.', freq: 82 },
+        { en: 'participate', es: 'participar', pos: 'verb', prepositions: ['in'], defEn: 'To take part in an activity or event.', defEs: 'Formar parte activa de una actividad o reunión.', exampleEn: 'All interns will participate in the workshop.', exampleEs: 'Todos los pasantes participarán en el taller.', freq: 84 },
+        { en: 'cope', es: 'lidiar / sobrellevar', pos: 'verb', prepositions: ['with'], defEn: 'To deal effectively with something difficult.', defEs: 'Manejar o afrontar una situación difícil.', exampleEn: 'Simple routines help us cope with heavy workloads.', exampleEs: 'Las rutinas simples ayudan a sobrellevar cargas altas de trabajo.', freq: 79 },
+        { en: 'deal', es: 'tratar / ocuparse', pos: 'verb', prepositions: ['with'], defEn: 'To take action to handle a problem, task, or person.', defEs: 'Atender, gestionar o resolver un asunto o persona.', exampleEn: 'Support deals with urgent tickets first.', exampleEs: 'Soporte se ocupa primero de los casos urgentes.', freq: 95 },
+        { en: 'approach', es: 'enfoque / acercarse', pos: 'noun', prepositions: ['to'], defEn: 'A way of dealing with a situation or problem.', defEs: 'Manera de abordar o resolver una situación.', exampleEn: 'We need a simpler approach to user testing.', exampleEs: 'Necesitamos un enfoque más simple para las pruebas.', freq: 91 },
+        { en: 'outcome', es: 'resultado / desenlace', pos: 'noun', prepositions: ['of'], defEn: 'The final result or effect of an action or process.', defEs: 'Resultado final de un proceso, reunión o acción.', exampleEn: 'The outcome of the meeting was very positive.', exampleEs: 'El resultado de la reunión fue muy positivo.', freq: 86 },
+        { en: 'feedback', es: 'retroalimentación / comentarios', pos: 'noun', prepositions: ['on', 'about'], defEn: 'Information or reactions about performance used for improvement.', defEs: 'Opiniones o devoluciones útiles para mejorar algo.', exampleEn: 'Thanks for your feedback on my presentation.', exampleEs: 'Gracias por tus comentarios sobre mi presentación.', freq: 94 },
+        { en: 'schedule', es: 'horario / programar', pos: 'noun', prepositions: ['for'], defEn: 'A plan that lists times for events or tasks.', defEs: 'Cronograma o agenda de actividades; programar una fecha.', exampleEn: 'We are right on schedule for Friday.', exampleEs: 'Estamos justo a tiempo según el cronograma para el viernes.', freq: 95 },
+        { en: 'implement', es: 'implementar', pos: 'verb', prepositions: [], defEn: 'To put a plan, decision, or system into action.', defEs: 'Poner en marcha un plan, sistema o medida.', exampleEn: 'We will implement the new workflow next week.', exampleEs: 'Implementaremos el nuevo flujo la próxima semana.', freq: 86 },
+        { en: 'deliver', es: 'entregar / cumplir', pos: 'verb', prepositions: ['on', 'to'], defEn: 'To bring goods or fulfill a promised result.', defEs: 'Entregar un trabajo o cumplir lo prometido.', exampleEn: 'The team delivered the prototype on time.', exampleEs: 'El equipo entregó el prototipo a tiempo.', freq: 91 },
+        { en: 'align', es: 'alinear / coincidir', pos: 'verb', prepositions: ['with', 'on'], defEn: 'To bring into agreement or proper coordination.', defEs: 'Poner de acuerdo o coordinar objetivos y criterios.', exampleEn: 'Let us align on the project scope today.', exampleEs: 'Alineémonos hoy sobre el alcance del proyecto.', freq: 84 },
+        { en: 'leverage', es: 'aprovechar al máximo', pos: 'verb', prepositions: [], defEn: 'To use something existing to maximum advantage.', defEs: 'Aprovechar un recurso o ventaja para lograr más impacto.', exampleEn: 'We can leverage existing templates to save time.', exampleEs: 'Podemos aprovechar plantillas existentes para ahorrar tiempo.', freq: 79 },
+        { en: 'streamline', es: 'agilizar / simplificar', pos: 'verb', prepositions: [], defEn: 'To make a process simpler, faster, and more efficient.', defEs: 'Simplificar y volver más ágil un proceso o tarea.', exampleEn: 'Automation helped streamline monthly billing.', exampleEs: 'La automatización ayudó a agilizar la facturación mensual.', freq: 76 },
+        { en: 'struggle', es: 'costar / luchar', pos: 'verb', prepositions: ['with', 'to'], defEn: 'To try very hard to do something difficult.', defEs: 'Esforzarse con dificultad para lograr o manejar algo.', exampleEn: 'Many readers struggle with phrasal verbs at first.', exampleEs: 'A muchos lectores les cuestan los phrasal verbs al principio.', freq: 87 },
+        { en: 'achieve', es: 'lograr / alcanzar', pos: 'verb', prepositions: [], defEn: 'To successfully reach a goal through effort.', defEs: 'Alcanzar una meta o resultado mediante esfuerzo.', exampleEn: 'Small daily habits help you achieve fluency.', exampleEs: 'Los pequeños hábitos diarios ayudan a alcanzar fluidez.', freq: 90 },
+        { en: 'prioritize', es: 'priorizar', pos: 'verb', prepositions: [], defEn: 'To decide which tasks are most important and do them first.', defEs: 'Ordenar tareas según su importancia para atender primero lo clave.', exampleEn: 'We must prioritize clarity over speed.', exampleEs: 'Debemos priorizar la claridad por encima de la velocidad.', freq: 85 },
+        { en: 'acknowledge', es: 'reconocer / acusar recibo', pos: 'verb', prepositions: [], defEn: 'To accept, admit, or confirm receipt of something.', defEs: 'Reconocer un hecho o confirmar que se recibió un mensaje.', exampleEn: 'Please acknowledge receipt of this email.', exampleEs: 'Por favor confirmá la recepción de este correo.', freq: 81 },
+        { en: 'clarify', es: 'aclarar', pos: 'verb', prepositions: [], defEn: 'To make an idea or statement easier to understand.', defEs: 'Hacer más claro o comprensible un punto o duda.', exampleEn: 'Could you clarify what you meant by phase two?', exampleEs: '¿Podrías aclarar a qué te referías con la fase dos?', freq: 84 },
+        { en: 'negotiate', es: 'negociar', pos: 'verb', prepositions: ['with', 'for'], defEn: 'To discuss terms in order to reach an agreement.', defEs: 'Dialogar condiciones para llegar a un acuerdo.', exampleEn: 'They negotiated with the supplier for lower rates.', exampleEs: 'Negociaron con el proveedor tarifas más bajas.', freq: 83 },
+        { en: 'assess', es: 'evaluar / valorar', pos: 'verb', prepositions: [], defEn: 'To judge or calculate the quality, importance, or risk of something.', defEs: 'Analizar o estimar el valor, riesgo o calidad de algo.', exampleEn: 'We need to assess the impact before changing prices.', exampleEs: 'Necesitamos evaluar el impacto antes de cambiar precios.', freq: 82 },
+        { en: 'mitigate', es: 'mitigar / reducir impacto', pos: 'verb', prepositions: [], defEn: 'To make something harmful or unpleasant less severe.', defEs: 'Disminuir la gravedad o impacto de un riesgo o problema.', exampleEn: 'Early reviews mitigate costly rework later.', exampleEs: 'Las revisiones tempranas mitigan retrabajos costosos luego.', freq: 71 },
+        { en: 'milestone', es: 'hito', pos: 'noun', prepositions: ['in'], defEn: 'An important stage or event in the development of something.', defEs: 'Etapa clave o logro significativo dentro de un proyecto.', exampleEn: 'Reaching 1,000 readers was a major milestone.', exampleEs: 'Llegar a 1.000 lectores fue un gran hito.', freq: 78 },
+        { en: 'bottleneck', es: 'cuello de botella', pos: 'noun', prepositions: ['in'], defEn: 'A point in a process where progress slows down or stops.', defEs: 'Punto de un proceso que frena o retrasa todo el flujo.', exampleEn: 'Manual approvals became a bottleneck in delivery.', exampleEs: 'Las aprobaciones manuales se volvieron un cuello de botella.', freq: 72 },
+        { en: 'workload', es: 'carga de trabajo', pos: 'noun', prepositions: [], defEn: 'The amount of work assigned to a person or team.', defEs: 'Cantidad de tareas o trabajo asignado a alguien.', exampleEn: 'Sharing templates reduced our weekly workload.', exampleEs: 'Compartir plantillas redujo nuestra carga semanal.', freq: 80 },
+        { en: 'stakeholder', es: 'parte interesada / actor clave', pos: 'noun', prepositions: [], defEn: 'A person or group with an interest or concern in a project.', defEs: 'Persona o grupo que tiene interés o injerencia en un proyecto.', exampleEn: 'Keep key stakeholders updated every Friday.', exampleEs: 'Mantené informados a los actores clave cada viernes.', freq: 77 },
+        { en: 'draft', es: 'borrador / redactar', pos: 'noun', prepositions: ['of'], defEn: 'A preliminary version of a document or plan.', defEs: 'Versión preliminar de un texto o propuesta.', exampleEn: 'Here is the first draft of the contract.', exampleEs: 'Acá está el primer borrador del contrato.', freq: 88 },
+        { en: 'outline', es: 'esquema / esbozar', pos: 'noun', prepositions: ['of'], defEn: 'A general summary showing the main points of something.', defEs: 'Resumen estructurado con los puntos principales de un tema.', exampleEn: 'She sent a brief outline of the agenda.', exampleEs: 'Ella envió un breve esquema de la agenda.', freq: 85 },
+        { en: 'postpone', es: 'posponer / aplazar', pos: 'verb', prepositions: ['until', 'to'], defEn: 'To arrange for an event to take place at a later time.', defEs: 'Dejar una reunión o tarea para una fecha posterior.', exampleEn: 'We had to postpone the call until Thursday.', exampleEs: 'Tuvimos que posponer la llamada hasta el jueves.', freq: 81 },
+        { en: 'resume', es: 'reanudar / currículum', pos: 'verb', prepositions: [], defEn: 'To start doing something again after a pause.', defEs: 'Retomar una actividad que se había interrumpido.', exampleEn: 'We will resume reading after a short break.', exampleEs: 'Reanudaremos la lectura tras una breve pausa.', freq: 84 },
+        { en: 'afford', es: 'permitirse / costear', pos: 'verb', prepositions: ['to'], defEn: 'To have enough money or time to do or buy something.', defEs: 'Contar con el dinero o tiempo suficiente para algo.', exampleEn: 'We cannot afford to miss this deadline.', exampleEs: 'No podemos permitirnos perder esta fecha límite.', freq: 92 },
+        { en: 'borrow', es: 'pedir prestado', pos: 'verb', prepositions: ['from'], defEn: 'To take and use something from someone with the intention to return it.', defEs: 'Recibir algo prestado temporalmente de otra persona.', exampleEn: 'Can I borrow a charger from you?', exampleEs: '¿Puedo pedirte prestado un cargador?', freq: 89 },
+        { en: 'lend', es: 'prestar', pos: 'verb', prepositions: ['to'], defEn: 'To give something to someone temporarily.', defEs: 'Dar algo temporalmente esperando que lo devuelvan.', exampleEn: 'Could you lend your notebook to me?', exampleEs: '¿Podrías prestarme tu cuaderno?', freq: 87 },
+        { en: 'commute', es: 'viajar al trabajo / trayecto diario', pos: 'noun', prepositions: ['to', 'from'], defEn: 'The regular journey between home and work.', defEs: 'Desplazamiento diario entre casa y el trabajo o estudio.', exampleEn: 'My morning commute takes thirty minutes by train.', exampleEs: 'Mi trayecto matutino dura treinta minutos en tren.', freq: 82 },
+        { en: 'errand', es: 'mandado / trámite', pos: 'noun', prepositions: [], defEn: 'A short trip to complete a small daily task.', defEs: 'Diligencia o mandado cotidiano fuera de casa.', exampleEn: 'I need to run a few errands after lunch.', exampleEs: 'Necesito hacer unos mandados después de almorzar.', freq: 76 },
+        { en: 'receipt', es: 'recibo / comprobante', pos: 'noun', prepositions: ['for'], defEn: 'A written record showing money was paid for goods or services.', defEs: 'Comprobante escrito de un pago o compra.', exampleEn: 'Keep the receipt for your expense report.', exampleEs: 'Guardá el recibo para tu rendición de gastos.', freq: 89 },
+        { en: 'refund', es: 'reembolso / reintegrar', pos: 'noun', prepositions: ['for'], defEn: 'Money returned to a customer who is not satisfied or canceled.', defEs: 'Devolución de dinero por una compra o servicio.', exampleEn: 'They offered a full refund for the canceled flight.', exampleEs: 'Ofrecieron un reembolso completo por el vuelo cancelado.', freq: 85 },
+        { en: 'appointment', es: 'cita / turno', pos: 'noun', prepositions: ['with', 'for'], defEn: 'An arranged time to meet a professional or colleague.', defEs: 'Horario acordado para ver a un médico, cliente o profesional.', exampleEn: 'I have a dentist appointment at 4 p.m.', exampleEs: 'Tengo turno con el dentista a las 16 h.', freq: 91 },
+        { en: 'hesitate', es: 'dudar / vacilar', pos: 'verb', prepositions: ['to', 'about'], defEn: 'To pause before doing something because of uncertainty.', defEs: 'Dudar o detenerse antes de actuar o decidir.', exampleEn: 'Do not hesitate to ask if anything is unclear.', exampleEs: 'No dudes en preguntar si algo no queda claro.', freq: 86 },
+        { en: 'remind', es: 'recordar (a alguien)', pos: 'verb', prepositions: ['of', 'about', 'to'], defEn: 'To cause someone to remember something or someone.', defEs: 'Hacer que alguien recuerde una tarea o dato.', exampleEn: 'Please remind me about the call at three.', exampleEs: 'Por favor recordame la llamada a las tres.', freq: 93 },
+        { en: 'provide', es: 'proveer / brindar', pos: 'verb', prepositions: ['with', 'for'], defEn: 'To give or supply something needed or useful.', defEs: 'Suministrar o facilitar algo necesario.', exampleEn: 'The guide provides readers with clear examples.', exampleEs: 'La guía brinda a los lectores ejemplos claros.', freq: 95 },
+        { en: 'require', es: 'requerir / exigir', pos: 'verb', prepositions: [], defEn: 'To need something or make it necessary.', defEs: 'Necesitar algo como condición o exigencia.', exampleEn: 'This task requires careful attention to detail.', exampleEs: 'Esta tarea requiere mucha atención al detalle.', freq: 94 },
+        { en: 'involve', es: 'involucrar / implicar', pos: 'verb', prepositions: ['in'], defEn: 'To include someone or something as a necessary part.', defEs: 'Incluir o hacer partícipe a alguien o algo en un proceso.', exampleEn: 'The project involves working closely with designers.', exampleEs: 'El proyecto implica trabajar cerca de diseñadores.', freq: 92 },
+        { en: 'improve', es: 'mejorar', pos: 'verb', prepositions: ['on'], defEn: 'To make or become better than before.', defEs: 'Hacer que algo sea mejor o perfeccionarlo.', exampleEn: 'Daily reading helps improve your vocabulary.', exampleEs: 'Leer a diario ayuda a mejorar tu vocabulario.', freq: 96 },
+        { en: 'maintain', es: 'mantener / sostener', pos: 'verb', prepositions: [], defEn: 'To keep something in good condition or at the same level.', defEs: 'Conservar algo en buen estado o sostener un ritmo.', exampleEn: 'It is important to maintain a healthy work-life balance.', exampleEs: 'Es importante mantener un equilibrio sano entre trabajo y vida.', freq: 91 },
+        { en: 'ensure', es: 'asegurar / garantizar', pos: 'verb', prepositions: [], defEn: 'To make certain that something will happen.', defEs: 'Garantizar o cerciorarse de que algo ocurra.', exampleEn: 'Double-check the file to ensure accuracy.', exampleEs: 'Revisá el archivo dos veces para garantizar precisión.', freq: 90 }
+      ];
+
+      // ==================== STATE ====================
+      let state = loadState();
+      let aiConfig = loadAiConfig();
+      let syncConfig = loadSyncConfig();
+      let cloudPushTimer = null;
+      let isSyncing = false;
+      let serverOnline = false;
+      let activeTab = 'translate';
+      let currentDir = 'auto';
+      let selectedSectionFilter = 'all';
+      let lastResult = null;
+      let practiceSession = null;
+
+      function normalizeState(raw) {
+        return {
+          sections: Array.isArray(raw?.sections) ? raw.sections.map(s => ({ ...s, updatedAt: s.updatedAt || 1700000000000 })) : [],
+          words: Array.isArray(raw?.words) ? raw.words.map(w => ({ ...w, createdAt: w.createdAt || 1700000000000, updatedAt: w.updatedAt || w.createdAt || 1700000000000 })) : [],
+          recent: Array.isArray(raw?.recent) ? raw.recent : [],
+          deleted: {
+            words: (raw?.deleted && raw.deleted.words) ? raw.deleted.words : {},
+            sections: (raw?.deleted && raw.deleted.sections) ? raw.deleted.sections : {}
+          },
+          updatedAt: raw?.updatedAt || 1700000000000
+        };
+      }
+
+      function defaultSeed() {
+        return normalizeState({
+          sections: [
+            { id: 'sec-trabajo', name: 'Trabajo y Reuniones', color: 'yellow', updatedAt: 1700000000000 },
+            { id: 'sec-lectura', name: 'Lectura Actual', color: 'sky', updatedAt: 1700000000000 },
+            { id: 'sec-phrasal', name: 'Phrasal Verbs', color: 'mint', updatedAt: 1700000000000 }
+          ],
+          words: [
+            { id: 'w-rely', sectionId: 'sec-trabajo', en: 'rely', es: 'confiar / depender', pos: 'verb', prepositions: ['on', 'upon'], defEn: 'To depend on someone or something with full trust.', defEs: 'Depender de alguien o algo con plena confianza.', exampleEn: 'We rely on accurate data to make decisions.', exampleEs: 'Dependemos de datos precisos para tomar decisiones.', freq: 92, activeLang: 'es', createdAt: 1700000000000, updatedAt: 1700000000000 },
+            { id: 'w-deadline', sectionId: 'sec-trabajo', en: 'deadline', es: 'fecha límite / plazo', pos: 'noun', prepositions: ['for', 'by'], defEn: 'The latest time or date by which something must be finished.', defEs: 'Fecha u hora máxima para completar o entregar algo.', exampleEn: 'The deadline for submitting invoices is Monday.', exampleEs: 'La fecha límite para enviar facturas es el lunes.', freq: 94, activeLang: 'es', createdAt: 1700000001000, updatedAt: 1700000001000 },
+            { id: 'w-comply', sectionId: 'sec-trabajo', en: 'comply', es: 'cumplir / acatar', pos: 'verb', prepositions: ['with'], defEn: 'To act according to a rule, standard, or order.', defEs: 'Actuar conforme a una norma, estándar o pedido.', exampleEn: 'Every vendor must comply with privacy standards.', exampleEs: 'Cada proveedor debe cumplir con los estándares de privacidad.', freq: 83, activeLang: 'es', createdAt: 1700000002000, updatedAt: 1700000002000 },
+            { id: 'w-insight', sectionId: 'sec-lectura', en: 'insight', es: 'perspectiva / hallazgo clave', pos: 'noun', prepositions: ['into'], defEn: 'A clear, deep understanding of a complex situation.', defEs: 'Comprensión profunda y valiosa de un tema o situación.', exampleEn: 'The report offers great insight into customer habits.', exampleEs: 'El informe ofrece una gran perspectiva sobre los hábitos del cliente.', freq: 86, activeLang: 'es', createdAt: 1700000003000, updatedAt: 1700000003000 },
+            { id: 'w-look-forward', sectionId: 'sec-phrasal', en: 'look forward', es: 'esperar con entusiasmo', pos: 'phrasal verb', prepositions: ['to'], defEn: 'To feel happy and excited about something upcoming.', defEs: 'Esperar algo futuro con gusto o entusiasmo.', exampleEn: 'I look forward to meeting you tomorrow.', exampleEs: 'Espero con gusto reunirme contigo mañana.', freq: 90, activeLang: 'es', createdAt: 1700000004000, updatedAt: 1700000004000 }
+          ],
+          recent: [],
+          deleted: { words: {}, sections: {} },
+          updatedAt: 1700000000000
+        });
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && Array.isArray(parsed.sections) && Array.isArray(parsed.words)) {
+              return normalizeState(parsed);
+            }
+          }
+          const seedTag = document.getElementById('pc-seed-data');
+          if (seedTag && seedTag.textContent.trim()) {
+            const seeded = JSON.parse(seedTag.textContent);
+            if (seeded && Array.isArray(seeded.sections)) return normalizeState(seeded);
+          }
+        } catch (e) {}
+        return defaultSeed();
+      }
+
+      function saveState(skipCloud = false) {
+        sortWordsByFreq();
+        if (!skipCloud) state.updatedAt = Date.now();
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {}
+        if (serverOnline) {
+          fetch('/api/data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(state)
+          }).catch(() => {});
+        }
+        if (!skipCloud && syncConfig.token) {
+          scheduleCloudPush();
+        }
+        updateCountBadges();
+      }
+
+      function sortWordsByFreq() {
+        state.words.sort((a, b) => (Number(b.freq) || 0) - (Number(a.freq) || 0) || (b.createdAt || 0) - (a.createdAt || 0));
+      }
+
+      function loadAiConfig() {
+        try {
+          const raw = localStorage.getItem(AI_KEY_STORAGE);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return { provider: 'none', key: '' };
+      }
+
+      function saveAiConfig(cfg) {
+        aiConfig = cfg;
+        try {
+          localStorage.setItem(AI_KEY_STORAGE, JSON.stringify(cfg));
+        } catch (e) {}
+        updateEngineHint();
+      }
+
+      // ==================== GITHUB GIST CLOUD SYNC ====================
+      function loadSyncConfig() {
+        try {
+          const raw = localStorage.getItem(SYNC_STORAGE);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return { token: '', gistId: '', lastSyncAt: 0 };
+      }
+
+      function saveSyncConfig(cfg) {
+        syncConfig = {
+          token: (cfg.token || '').trim(),
+          gistId: (cfg.gistId || '').trim(),
+          lastSyncAt: cfg.lastSyncAt || 0
+        };
+        try {
+          localStorage.setItem(SYNC_STORAGE, JSON.stringify(syncConfig));
+        } catch (e) {}
+        setSyncStatusLabel(syncConfig.token ? 'Al día' : 'Sync');
+      }
+
+      function setSyncStatusLabel(label) {
+        const el = document.getElementById('syncBtnLabel');
+        if (el) el.textContent = label;
+        const modalStatus = document.getElementById('syncModalStatusText');
+        if (modalStatus) {
+          if (!syncConfig.token) {
+            modalStatus.textContent = 'Estado: Desconectado (solo guardado local)';
+          } else {
+            const when = syncConfig.lastSyncAt ? new Date(syncConfig.lastSyncAt).toLocaleTimeString() : 'pendiente';
+            modalStatus.textContent = `Estado: ${label} · Gist: ${syncConfig.gistId || 'automático'} · Última sync: ${when}`;
+          }
+        }
+      }
+
+      function mergeStates(localRaw, remoteRaw) {
+        const local = normalizeState(localRaw);
+        const remote = normalizeState(remoteRaw);
+
+        const deletedWords = { ...local.deleted.words };
+        for (const [id, ts] of Object.entries(remote.deleted.words || {})) {
+          deletedWords[id] = Math.max(deletedWords[id] || 0, Number(ts) || 0);
+        }
+
+        const deletedSections = { ...local.deleted.sections };
+        for (const [id, ts] of Object.entries(remote.deleted.sections || {})) {
+          deletedSections[id] = Math.max(deletedSections[id] || 0, Number(ts) || 0);
+        }
+
+        const secMap = new Map();
+        for (const s of [...local.sections, ...remote.sections]) {
+          const prev = secMap.get(s.id);
+          if (!prev || (s.updatedAt || 0) >= (prev.updatedAt || 0)) {
+            secMap.set(s.id, s);
+          }
+        }
+        const mergedSections = Array.from(secMap.values()).filter(s => {
+          const delTs = deletedSections[s.id] || 0;
+          return delTs < (s.updatedAt || 0);
+        });
+        const validSecIds = new Set(mergedSections.map(s => s.id));
+
+        const wordMap = new Map();
+        for (const w of [...local.words, ...remote.words]) {
+          const ts = w.updatedAt || w.createdAt || 0;
+          const prev = wordMap.get(w.id);
+          const prevTs = prev ? (prev.updatedAt || prev.createdAt || 0) : -1;
+          if (!prev || ts >= prevTs) {
+            wordMap.set(w.id, w);
+          }
+        }
+        const mergedWords = Array.from(wordMap.values()).filter(w => {
+          const ts = w.updatedAt || w.createdAt || 0;
+          const delTs = deletedWords[w.id] || 0;
+          if (delTs >= ts) return false;
+          if (w.sectionId && !validSecIds.has(w.sectionId) && mergedSections.length > 0) return false;
+          return true;
+        });
+
+        const mergedRecent = Array.from(new Set([...local.recent, ...remote.recent])).slice(0, 8);
+
+        return {
+          sections: mergedSections,
+          words: mergedWords,
+          recent: mergedRecent,
+          deleted: { words: deletedWords, sections: deletedSections },
+          updatedAt: Math.max(local.updatedAt || 0, remote.updatedAt || 0)
+        };
+      }
+
+      async function githubRequest(path, options = {}) {
+        const resp = await fetch(`https://api.github.com${path}`, {
+          ...options,
+          cache: 'no-store',
+          headers: {
+            'Authorization': `Bearer ${syncConfig.token}`,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'Content-Type': 'application/json',
+            ...(options.headers || {})
+          }
+        });
+        if (!resp.ok) {
+          throw new Error(`GitHub HTTP ${resp.status}`);
+        }
+        return resp.json();
+      }
+
+      async function ensureGistId() {
+        if (syncConfig.gistId) return syncConfig.gistId;
+        const list = await githubRequest('/gists?per_page=50');
+        const found = Array.isArray(list)
+          ? list.find(g => g.files && g.files[GIST_FILENAME])
+          : null;
+        if (found) {
+          saveSyncConfig({ ...syncConfig, gistId: found.id });
+          return found.id;
+        }
+        const created = await githubRequest('/gists', {
+          method: 'POST',
+          body: JSON.stringify({
+            description: 'Lector Bilingüe EN⇄ES — Sincronización automática',
+            public: false,
+            files: {
+              [GIST_FILENAME]: { content: JSON.stringify(state, null, 2) }
+            }
+          })
+        });
+        saveSyncConfig({ ...syncConfig, gistId: created.id, lastSyncAt: Date.now() });
+        return created.id;
+      }
+
+      async function pushToCloud() {
+        if (!syncConfig.token) return;
+        setSyncStatusLabel('Guardando...');
+        const gistId = await ensureGistId();
+        await githubRequest(`/gists/${encodeURIComponent(gistId)}`, {
+          method: 'PATCH',
+          body: JSON.stringify({
+            files: {
+              [GIST_FILENAME]: { content: JSON.stringify(state, null, 2) }
+            }
+          })
+        });
+        saveSyncConfig({ ...syncConfig, gistId, lastSyncAt: Date.now() });
+        setSyncStatusLabel('Al día');
+      }
+
+      async function syncWithCloud(showFeedback = false) {
+        if (!syncConfig.token || isSyncing) return;
+        isSyncing = true;
+        setSyncStatusLabel('Sync...');
+        try {
+          const gistId = await ensureGistId();
+          const gist = await githubRequest(`/gists/${encodeURIComponent(gistId)}`);
+          const fileObj = gist.files && gist.files[GIST_FILENAME];
+          let remoteJson = '';
+          if (fileObj) {
+            if (fileObj.truncated && fileObj.raw_url) {
+              const rawResp = await fetch(fileObj.raw_url, { cache: 'no-store' });
+              remoteJson = await rawResp.text();
+            } else {
+              remoteJson = fileObj.content || '';
+            }
+          }
+          let remoteState = null;
+          if (remoteJson.trim()) {
+            try { remoteState = JSON.parse(remoteJson); } catch {}
+          }
+
+          if (remoteState && Array.isArray(remoteState.sections)) {
+            const merged = mergeStates(state, remoteState);
+            const mergedStr = JSON.stringify(merged);
+            const remoteStr = JSON.stringify(normalizeState(remoteState));
+            state = merged;
+            saveState(true);
+            renderSavedView();
+            if (mergedStr !== remoteStr) {
+              await pushToCloud();
+            } else {
+              saveSyncConfig({ ...syncConfig, gistId, lastSyncAt: Date.now() });
+              setSyncStatusLabel('Al día');
+            }
+          } else {
+            await pushToCloud();
+          }
+          if (showFeedback) showToast('Nube sincronizada ✿');
+        } catch (err) {
+          setSyncStatusLabel('Error');
+          if (showFeedback) showToast('Error al sincronizar: revisá el token');
+        } finally {
+          isSyncing = false;
+        }
+      }
+
+      function scheduleCloudPush() {
+        if (!syncConfig.token) return;
+        setSyncStatusLabel('Pendiente...');
+        clearTimeout(cloudPushTimer);
+        cloudPushTimer = setTimeout(() => {
+          syncWithCloud(false);
+        }, 900);
+      }
+
+      function updateEngineHint() {
+        const el = document.getElementById('engineHint');
+        if (!el) return;
+        if (aiConfig.provider && aiConfig.provider !== 'none' && aiConfig.key) {
+          el.textContent = `Motor: IA (${aiConfig.provider === 'gemini' ? 'Gemini 2.5' : 'GPT-4o-mini'}) + respaldo`;
+        } else if (serverOnline) {
+          el.textContent = 'Motor: Servidor + 3 APIs en vivo';
+        } else {
+          el.textContent = 'Motor: Diccionario + 3 APIs Web';
+        }
+      }
+
+      // ==================== HELPERS ====================
+      function norm(str) {
+        return String(str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+      }
+
+      function escHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function showToast(msg) {
+        const box = document.getElementById('toastContainer');
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.textContent = msg;
+        box.appendChild(t);
+        setTimeout(() => { t.remove(); }, 2600);
+      }
+
+      function speakWord(text, lang) {
+        if (!('speechSynthesis' in window) || !text) {
+          showToast('Tu navegador no soporta síntesis de voz');
+          return;
+        }
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = lang === 'es' ? 'es-AR' : 'en-US';
+        u.rate = 0.94;
+        window.speechSynthesis.speak(u);
+      }
+
+      function freqLabel(score) {
+        if (score >= 88) return 'Muy frecuente';
+        if (score >= 70) return 'Frecuente';
+        if (score >= 48) return 'Uso medio';
+        return 'Específico';
+      }
+
+      function fpmToScore(fpm) {
+        if (!Number.isFinite(fpm) || fpm <= 0) return 48;
+        const s = Math.round(22 * Math.log10(fpm + 1) + 28);
+        return Math.max(12, Math.min(99, s));
+      }
+
+      function looksSpanish(text) {
+        const lower = text.toLowerCase().trim();
+        if (/[áéíóúüñ¿¡]/i.test(lower)) return true;
+        const endings = /(ción|sión|dad|tad|mente|ando|iendo|aje|eza|oso|osa|ísimo|ísima)$/i;
+        const parts = lower.split(/\s+/);
+        if (parts.length === 1 && endings.test(parts[0]) && parts[0].length > 4) return true;
+        return false;
+      }
+
+      async function fetchJsonTimeout(url, opts = {}, ms = 6500) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), ms);
+        try {
+          const r = await fetch(url, { ...opts, signal: ctrl.signal });
+          if (!r.ok) return null;
+          return await r.json();
+        } catch {
+          return null;
+        } finally {
+          clearTimeout(timer);
+        }
+      }
+
+      // ==================== TRANSLATION PIPELINE ====================
+      function findBuiltin(query, dir) {
+        const q = norm(query);
+        return BUILTIN_DICT.find(item => {
+          const enMatch = norm(item.en) === q;
+          const esMatches = item.es.split('/').map(s => norm(s));
+          const esMatch = esMatches.includes(q);
+          if (dir === 'en-es') return enMatch;
+          if (dir === 'es-en') return esMatch;
+          return enMatch || esMatch;
+        });
+      }
+
+      async function translateWithAI(query, dir) {
+        if (!aiConfig.provider || aiConfig.provider === 'none' || !aiConfig.key) return null;
+        const prompt = `Analyze the term "${query}" (direction hint: ${dir}) for a Spanish-speaking reader reading in English (workplace and daily-life contexts).
+Return strictly JSON:
+{
+  "detectedDir": "en-es" or "es-en",
+  "en": "canonical English word or expression",
+  "es": "concise natural Spanish translation (1-2 equivalents separated by /)",
+  "pos": "part of speech",
+  "phonetic": "IPA or empty string",
+  "defEn": "clear concise definition in English (max 22 words)",
+  "defEs": "clear concise definition in Spanish (max 22 words)",
+  "exampleEn": "natural workplace or everyday English sentence",
+  "exampleEs": "Spanish translation of exampleEn",
+  "prepositions": ["common prepositions strictly used with the English word, [] if none"],
+  "freq": integer 1-100 representing everyday & workplace frequency
+}`;
+        try {
+          if (aiConfig.provider === 'gemini') {
+            const data = await fetchJsonTimeout(
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(aiConfig.key)}`,
+              {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  contents: [{ parts: [{ text: prompt }] }],
+                  generationConfig: { responseMimeType: 'application/json', temperature: 0.2 }
+                })
+              },
+              12000
+            );
+            const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (txt) {
+              const p = JSON.parse(txt);
+              if (p.en && p.es) return { ...p, source: 'ai:gemini' };
+            }
+          } else if (aiConfig.provider === 'openai') {
+            const data = await fetchJsonTimeout(
+              'https://api.openai.com/v1/chat/completions',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${aiConfig.key}`
+                },
+                body: JSON.stringify({
+                  model: 'gpt-4o-mini',
+                  response_format: { type: 'json_object' },
+                  temperature: 0.2,
+                  messages: [
+                    { role: 'system', content: 'Respond strictly with valid JSON.' },
+                    { role: 'user', content: prompt }
+                  ]
+                })
+              },
+              12000
+            );
+            const txt = data?.choices?.[0]?.message?.content;
+            if (txt) {
+              const p = JSON.parse(txt);
+              if (p.en && p.es) return { ...p, source: 'ai:openai' };
+            }
+          }
+        } catch (e) {}
+        return null;
+      }
+
+      async function translateMyMemory(text, from, to) {
+        const data = await fetchJsonTimeout(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`);
+        if (!data || !data.responseData) return null;
+        const main = (data.responseData.translatedText || '').trim();
+        const alts = [];
+        if (Array.isArray(data.matches)) {
+          for (const m of data.matches) {
+            const t = (m.translation || '').trim();
+            if (t && norm(t) !== norm(main) && !alts.some(a => norm(a) === norm(t))) {
+              alts.push(t);
+            }
+            if (alts.length >= 2) break;
+          }
+        }
+        return { main, alts };
+      }
+
+      function extractPrepsFromTexts(word, texts) {
+        const found = new Set();
+        const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const rx = new RegExp(`\\b${escaped}(?:s|ed|ing)?\\s+(${Array.from(PREPOSITIONS).join('|')})\\b`, 'gi');
+        for (const t of texts) {
+          if (!t) continue;
+          let m;
+          while ((m = rx.exec(t)) !== null) {
+            found.add(m[1].toLowerCase());
+          }
+        }
+        return Array.from(found);
+      }
+
+      async function translateClientPipeline(query, dir) {
+        let detectedDir = dir;
+        if (dir === 'auto') {
+          if (looksSpanish(query)) {
+            detectedDir = 'es-en';
+          } else {
+            const check = await fetchJsonTimeout(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(query.split(/\s+/)[0])}`);
+            detectedDir = Array.isArray(check) ? 'en-es' : 'es-en';
+          }
+        }
+
+        let enWord = query;
+        let esWord = query;
+        let alts = [];
+        if (detectedDir === 'en-es') {
+          const mm = await translateMyMemory(query, 'en', 'es');
+          if (mm && mm.main) {
+            esWord = mm.main;
+            alts = mm.alts;
+          }
+        } else {
+          const mm = await translateMyMemory(query, 'es', 'en');
+          if (mm && mm.main) {
+            enWord = mm.main.replace(/[.!?]+$/, '').trim();
+            alts = mm.alts;
+          }
+        }
+
+        const builtinAfter = findBuiltin(enWord, 'en-es');
+        if (builtinAfter) {
+          return {
+            ...builtinAfter,
+            detectedDir,
+            es: detectedDir === 'es-en' ? query : builtinAfter.es,
+            source: 'builtin+api'
+          };
+        }
+
+        const head = enWord.toLowerCase().split(/\s+/)[0];
+        const [dictData, dmFreq, dmBga] = await Promise.all([
+          fetchJsonTimeout(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(enWord)}`),
+          fetchJsonTimeout(`https://api.datamuse.com/words?sp=${encodeURIComponent(head)}&md=f&max=1`),
+          fetchJsonTimeout(`https://api.datamuse.com/words?rel_bga=${encodeURIComponent(head)}&max=35`)
+        ]);
+
+        let pos = '';
+        let phonetic = '';
+        let defEn = '';
+        let exampleEn = '';
+        const texts = [];
+
+        if (Array.isArray(dictData) && dictData[0]) {
+          const entry = dictData[0];
+          phonetic = entry.phonetic || (entry.phonetics?.find(p => p.text)?.text) || '';
+          const m = entry.meanings?.[0];
+          if (m) {
+            pos = m.partOfSpeech || '';
+            defEn = m.definitions?.[0]?.definition || '';
+            for (const mg of entry.meanings || []) {
+              for (const d of mg.definitions || []) {
+                if (d.definition) texts.push(d.definition);
+                if (d.example) {
+                  texts.push(d.example);
+                  if (!exampleEn) exampleEn = d.example;
+                }
+              }
+            }
+          }
+        }
+
+        if (!defEn) {
+          const dmDef = await fetchJsonTimeout(`https://api.datamuse.com/words?sp=${encodeURIComponent(enWord)}&md=d&max=1`);
+          if (Array.isArray(dmDef) && dmDef[0]?.defs?.[0]) {
+            const parts = dmDef[0].defs[0].split('\t');
+            pos = pos || parts[0];
+            defEn = parts[1] || dmDef[0].defs[0];
+          }
+        }
+
+        const [mmDef, mmEx] = await Promise.all([
+          defEn ? translateMyMemory(defEn, 'en', 'es') : Promise.resolve(null),
+          exampleEn ? translateMyMemory(exampleEn, 'en', 'es') : Promise.resolve(null)
+        ]);
+
+        const defEs = mmDef?.main || `Equivalente de "${enWord}" (${esWord}).`;
+        const exampleEs = mmEx?.main || '';
+
+        let freq = 55;
+        if (Array.isArray(dmFreq) && dmFreq[0]?.tags) {
+          const ft = dmFreq[0].tags.find(t => t.startsWith('f:'));
+          if (ft) freq = fpmToScore(parseFloat(ft.slice(2)));
+        }
+
+        const textPreps = extractPrepsFromTexts(head, texts);
+        const dmPreps = [];
+        if (Array.isArray(dmBga)) {
+          for (let i = 0; i < dmBga.length; i++) {
+            const w = (dmBga[i].word || '').toLowerCase();
+            if (PREPOSITIONS.has(w)) {
+              if (!GENERIC_PREPS.has(w) || i < 12 || textPreps.includes(w)) {
+                dmPreps.push(w);
+              }
+            }
+            if (dmPreps.length >= 4) break;
+          }
+        }
+
+        const prepositions = Array.from(new Set([...textPreps, ...dmPreps])).slice(0, 4);
+        const displayEs = alts.length > 0 && detectedDir === 'en-es' ? `${esWord} / ${alts[0]}` : esWord;
+
+        return {
+          source: 'live-3apis',
+          detectedDir,
+          en: enWord,
+          es: displayEs,
+          pos,
+          phonetic,
+          defEn: defEn || `English term meaning "${esWord}".`,
+          defEs,
+          exampleEn,
+          exampleEs,
+          prepositions,
+          freq
+        };
+      }
+
+      async function performTranslate(rawQuery) {
+        const query = rawQuery.trim();
+        if (!query) return;
+
+        const resultArea = document.getElementById('resultArea');
+        resultArea.innerHTML = `
+          <div class="card" style="text-align:center;padding:18px;">
+            <span class="spinner"></span>
+            <span style="margin-left:8px;font-weight:700;font-size:0.86rem;">Buscando traducción, significados y preposiciones...</span>
+          </div>`;
+
+        let res = null;
+
+        // 1. If server is live, delegate to /api/translate
+        if (serverOnline) {
+          res = await fetchJsonTimeout('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              query,
+              direction: currentDir,
+              aiProvider: aiConfig.provider !== 'none' ? aiConfig.provider : '',
+              aiKey: aiConfig.key || ''
+            })
+          }, 12000);
+        }
+
+        // 2. Client-side AI if configured
+        if (!res && aiConfig.provider !== 'none' && aiConfig.key) {
+          res = await translateWithAI(query, currentDir);
+        }
+
+        // 3. Built-in instant match (unless user needs fresh AI)
+        if (!res) {
+          const builtin = findBuiltin(query, currentDir);
+          if (builtin) {
+            res = { ...builtin, detectedDir: looksSpanish(query) ? 'es-en' : 'en-es', source: 'builtin' };
+          }
+        }
+
+        // 4. Client 3-API live pipeline
+        if (!res) {
+          res = await translateClientPipeline(query, currentDir);
+        }
+
+        if (!res) {
+          resultArea.innerHTML = `<div class="card card-yellow"><p style="font-size:0.85rem;">No se pudo conectar con las APIs y no está en el diccionario local. Podés agregarla con <strong>＋ Manual</strong>.</p></div>`;
+          return;
+        }
+
+        lastResult = res;
+        pushRecent(res.en);
+        renderResult(res);
+      }
+
+      function pushRecent(enWord) {
+        if (!enWord) return;
+        const cleaned = enWord.trim();
+        state.recent = [cleaned, ...state.recent.filter(w => norm(w) !== norm(cleaned))].slice(0, 8);
+        saveState();
+        renderSuggestions();
+      }
+
+      function renderResult(res) {
+        const resultArea = document.getElementById('resultArea');
+        const preps = Array.isArray(res.prepositions) ? res.prepositions : [];
+        const freq = Math.max(1, Math.min(100, Number(res.freq) || 55));
+
+        const secOptions = state.sections.map(s =>
+          `<option value="${escHtml(s.id)}">${escHtml(s.name)}</option>`
+        ).join('');
+
+        const prepHtml = preps.length > 0
+          ? `<div class="prep-chips">${preps.map(p =>
+              `<button type="button" class="prep-pill" data-speak-phrase="${escHtml(res.en + ' ' + p)}" title="Escuchar combinación">
+                <span>${escHtml(res.en)} <u>${escHtml(p)}</u></span> 🔊
+              </button>`
+            ).join('')}</div>`
+          : `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:3px;">No requiere una preposición fija habitual.</div>`;
+
+        resultArea.innerHTML = `
+          <article class="card">
+            <div class="result-header">
+              <div class="word-pair">
+                <div class="word-line">
+                  <span class="lang-tag sky">EN</span>
+                  <span class="word-en-big">${escHtml(res.en)}</span>
+                  ${res.phonetic ? `<span style="font-size:0.78rem;color:var(--text-muted);">${escHtml(res.phonetic)}</span>` : ''}
+                  ${res.pos ? `<span class="lang-tag">${escHtml(res.pos)}</span>` : ''}
+                  <button type="button" class="speak-btn" data-speak="${escHtml(res.en)}" data-lang="en">🔊 EN</button>
+                </div>
+                <div class="word-line">
+                  <span class="lang-tag">ES</span>
+                  <span class="word-es-big">${escHtml(res.es)}</span>
+                  <button type="button" class="speak-btn" data-speak="${escHtml(res.es.split('/')[0])}" data-lang="es">🔊 ES</button>
+                </div>
+              </div>
+
+              <div class="freq-badge" title="Frecuencia en la vida laboral y cotidiana (1–100)">
+                <span class="freq-pill">Uso ${freq}/100 · ${freqLabel(freq)}</span>
+                <div class="freq-meter"><div class="freq-fill" style="width:${freq}%"></div></div>
+              </div>
+            </div>
+
+            <div class="meanings-grid">
+              <div class="meaning-box es">
+                <div class="meaning-label"><span>Significado en Español</span><span>✿</span></div>
+                <div class="meaning-text">${escHtml(res.defEs || '—')}</div>
+                ${res.exampleEs ? `<div class="meaning-ex">“${escHtml(res.exampleEs)}”</div>` : ''}
+              </div>
+              <div class="meaning-box en">
+                <div class="meaning-label"><span>English Meaning</span><span>📖</span></div>
+                <div class="meaning-text">${escHtml(res.defEn || '—')}</div>
+                ${res.exampleEn ? `<div class="meaning-ex">“${escHtml(res.exampleEn)}”</div>` : ''}
+              </div>
+            </div>
+
+            <div class="prep-box">
+              <div class="meaning-label"><span>Preposiciones frecuentes</span><span>🔗</span></div>
+              ${prepHtml}
+            </div>
+
+            <div class="save-bar">
+              <select id="saveSectionSelect" class="select-input" style="flex:1;min-width:120px;">
+                ${secOptions}
+              </select>
+              <button type="button" class="btn-pill" id="quickNewSecInSaveBtn" title="Crear nueva sección">＋ Sec</button>
+              <button type="button" class="btn-pill yellow dashed" id="saveCurrentWordBtn">💾 Guardar ✿</button>
+            </div>
+          </article>
+        `;
+
+        resultArea.querySelectorAll('[data-speak]').forEach(btn => {
+          btn.addEventListener('click', () => speakWord(btn.dataset.speak, btn.dataset.lang));
+        });
+        resultArea.querySelectorAll('[data-speak-phrase]').forEach(btn => {
+          btn.addEventListener('click', () => speakWord(btn.dataset.speakPhrase, 'en'));
+        });
+
+        const saveBtn = document.getElementById('saveCurrentWordBtn');
+        if (saveBtn) {
+          saveBtn.addEventListener('click', () => saveResultToSection(res));
+        }
+
+        const quickSecBtn = document.getElementById('quickNewSecInSaveBtn');
+        if (quickSecBtn) {
+          quickSecBtn.addEventListener('click', () => {
+            const created = promptCreateSection();
+            if (created) renderResult(res);
+          });
+        }
+      }
+
+      function saveResultToSection(res) {
+        const secId = document.getElementById('saveSectionSelect')?.value || state.sections[0]?.id;
+        if (!secId) {
+          showToast('Primero creá una sección');
+          return;
+        }
+        const existingIdx = state.words.findIndex(w => norm(w.en) === norm(res.en) && w.sectionId === secId);
+        const now = Date.now();
+        const entry = {
+          id: existingIdx >= 0 ? state.words[existingIdx].id : 'w-' + now + '-' + Math.random().toString(36).slice(2, 6),
+          sectionId: secId,
+          en: res.en,
+          es: res.es,
+          pos: res.pos || '',
+          prepositions: Array.isArray(res.prepositions) ? res.prepositions : [],
+          defEn: res.defEn || '',
+          defEs: res.defEs || '',
+          exampleEn: res.exampleEn || '',
+          exampleEs: res.exampleEs || '',
+          freq: Math.max(1, Math.min(100, Number(res.freq) || 55)),
+          activeLang: 'es',
+          createdAt: existingIdx >= 0 ? (state.words[existingIdx].createdAt || now) : now,
+          updatedAt: now
+        };
+        if (existingIdx >= 0) {
+          state.words[existingIdx] = entry;
+          showToast(`Actualizada "${entry.en}"`);
+        } else {
+          state.words.push(entry);
+          showToast(`Guardada "${entry.en}" ✿`);
+        }
+        saveState();
+        renderSavedView();
+      }
+
+      // ==================== SUGGESTIONS ====================
+      let sugTimer = null;
+      function renderSuggestions(query = '') {
+        const box = document.getElementById('suggestionsBox');
+        const q = norm(query);
+        const chips = [];
+
+        if (!q) {
+          const recents = state.recent.slice(0, 5);
+          if (recents.length > 0) {
+            chips.push(`<span style="font-size:0.7rem;font-weight:700;color:var(--text-muted);align-self:center;">Recientes:</span>`);
+            for (const r of recents) {
+              chips.push(`<button type="button" class="chip recent" data-sug="${escHtml(r)}">${escHtml(r)}</button>`);
+            }
+          }
+        } else {
+          const matches = BUILTIN_DICT
+            .filter(d => norm(d.en).includes(q) || norm(d.es).includes(q))
+            .slice(0, 6);
+          for (const m of matches) {
+            chips.push(`<button type="button" class="chip" data-sug="${escHtml(m.en)}">${escHtml(m.en)} → ${escHtml(m.es.split('/')[0].trim())}</button>`);
+          }
+        }
+
+        box.innerHTML = chips.join('');
+        box.querySelectorAll('[data-sug]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.getElementById('searchInput').value = btn.dataset.sug;
+            document.getElementById('clearSearchBtn').classList.add('visible');
+            performTranslate(btn.dataset.sug);
+          });
+        });
+
+        if (q.length >= 2) {
+          clearTimeout(sugTimer);
+          sugTimer = setTimeout(async () => {
+            const dm = await fetchJsonTimeout(`https://api.datamuse.com/sug?s=${encodeURIComponent(q)}&max=4`, {}, 2500);
+            if (!Array.isArray(dm) || document.getElementById('searchInput').value.trim().toLowerCase() !== q) return;
+            const existing = new Set(Array.from(box.querySelectorAll('[data-sug]')).map(b => norm(b.dataset.sug)));
+            for (const item of dm) {
+              if (!existing.has(norm(item.word))) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'chip';
+                btn.dataset.sug = item.word;
+                btn.textContent = item.word;
+                btn.addEventListener('click', () => {
+                  document.getElementById('searchInput').value = item.word;
+                  performTranslate(item.word);
+                });
+                box.appendChild(btn);
+              }
+            }
+          }, 260);
+        }
+      }
+
+      // ==================== SAVED / GUARDADOS ====================
+      function updateCountBadges() {
+        document.getElementById('savedCountBadge').textContent = state.words.length;
+        renderPracticeSectionSelect();
+      }
+
+      function promptCreateSection() {
+        const name = window.prompt('Nombre de la nueva sección (ej. Trabajo, Novela, Phrasal Verbs):');
+        if (!name || !name.trim()) return null;
+        const colors = ['yellow', 'sky', 'mint'];
+        const now = Date.now();
+        const newSec = {
+          id: 'sec-' + now,
+          name: name.trim(),
+          color: colors[state.sections.length % colors.length],
+          updatedAt: now
+        };
+        state.sections.push(newSec);
+        selectedSectionFilter = newSec.id;
+        saveState();
+        renderSavedView();
+        showToast(`Sección "${newSec.name}" creada`);
+        return newSec;
+      }
+
+      function renderSavedView() {
+        sortWordsByFreq();
+        const bar = document.getElementById('sectionsBar');
+        const allChip = `<button type="button" class="sec-chip ${selectedSectionFilter === 'all' ? 'active' : ''}" data-sec="all">Todas (${state.words.length})</button>`;
+        const secChips = state.sections.map(s => {
+          const count = state.words.filter(w => w.sectionId === s.id).length;
+          return `<button type="button" class="sec-chip ${selectedSectionFilter === s.id ? 'active' : ''}" data-sec="${escHtml(s.id)}" data-color="${escHtml(s.color || 'sky')}">${escHtml(s.name)} (${count})</button>`;
+        }).join('');
+        bar.innerHTML = allChip + secChips;
+
+        bar.querySelectorAll('[data-sec]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedSectionFilter = btn.dataset.sec;
+            renderSavedView();
+          });
+        });
+
+        const isCustomSelected = selectedSectionFilter !== 'all';
+        document.getElementById('renameSectionBtn').style.display = isCustomSelected ? 'inline-flex' : 'none';
+        document.getElementById('deleteSectionBtn').style.display = isCustomSelected ? 'inline-flex' : 'none';
+
+        const filterText = norm(document.getElementById('savedFilterInput').value);
+        const filtered = state.words.filter(w => {
+          const secOk = selectedSectionFilter === 'all' || w.sectionId === selectedSectionFilter;
+          if (!secOk) return false;
+          if (!filterText) return true;
+          return norm(w.en).includes(filterText) || norm(w.es).includes(filterText) || norm((w.prepositions || []).join(' ')).includes(filterText);
+        });
+
+        const tbody = document.getElementById('savedTbody');
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="4" class="empty-state">No hay palabras guardadas en esta vista todavía. Buscá una en el traductor o agregala con <strong>＋ Palabra</strong>.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(w => {
+          const lang = w.activeLang === 'en' ? 'en' : 'es';
+          const defText = lang === 'en' ? (w.defEn || 'No English definition saved.') : (w.defEs || 'Sin definición en español.');
+          const preps = Array.isArray(w.prepositions) && w.prepositions.length > 0
+            ? w.prepositions.map(p => `<span class="prep-tag-sm">${escHtml(p)}</span>`).join('')
+            : `<span style="color:var(--text-muted);">—</span>`;
+
+          return `
+            <tr data-id="${escHtml(w.id)}">
+              <!-- Columna 1: Inglés -->
+              <td>
+                <button type="button" class="cell-word-btn ${lang === 'en' ? 'selected-lang' : ''}" data-setlang="en" title="Clic para ver la definición en inglés">
+                  ${escHtml(w.en)}
+                </button>
+                <div class="mini-meta">
+                  <span class="freq-mini" title="Uso laboral y cotidiano">${Number(w.freq) || 50}</span>
+                  <button type="button" class="mini-icon-btn" data-say="${escHtml(w.en)}" data-saylang="en" title="Escuchar en inglés">🔊</button>
+                </div>
+              </td>
+              <!-- Columna 2: Español -->
+              <td>
+                <button type="button" class="cell-word-btn cell-word-es ${lang === 'es' ? 'selected-lang' : ''}" data-setlang="es" title="Clic para ver la definición en español">
+                  ${escHtml(w.es)}
+                </button>
+                <div class="mini-meta">
+                  <button type="button" class="mini-icon-btn" data-say="${escHtml(w.es.split('/')[0])}" data-saylang="es" title="Escuchar en español">🔊</button>
+                </div>
+              </td>
+              <!-- Columna 3: Preposiciones (antes de Definición) -->
+              <td>${preps}</td>
+              <!-- Columna 4: Definición según palabra apretada -->
+              <td>
+                <div class="def-cell-wrap">
+                  <div class="def-lang-row">
+                    <span class="lang-tag ${lang === 'en' ? 'sky' : ''}">${lang.toUpperCase()}</span>
+                    <span class="row-actions-inline">
+                      <button type="button" class="mini-icon-btn" data-edit-word="${escHtml(w.id)}" title="Editar palabra">✎</button>
+                      <button type="button" class="mini-icon-btn" data-del-word="${escHtml(w.id)}" title="Eliminar palabra">🗑</button>
+                    </span>
+                  </div>
+                  <div class="def-text">${escHtml(defText)}</div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        tbody.querySelectorAll('[data-setlang]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.closest('tr').dataset.id;
+            const item = state.words.find(w => w.id === id);
+            if (!item) return;
+            item.activeLang = btn.dataset.setlang;
+            item.updatedAt = Date.now();
+            saveState();
+            renderSavedView();
+          });
+        });
+
+        tbody.querySelectorAll('[data-say]').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            speakWord(btn.dataset.say, btn.dataset.saylang);
+          });
+        });
+
+        tbody.querySelectorAll('[data-edit-word]').forEach(btn => {
+          btn.addEventListener('click', () => openWordModal(btn.dataset.editWord));
+        });
+
+        tbody.querySelectorAll('[data-del-word]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.delWord;
+            state.deleted.words[id] = Date.now();
+            state.words = state.words.filter(w => w.id !== id);
+            saveState();
+            renderSavedView();
+            showToast('Palabra eliminada');
+          });
+        });
+      }
+
+      // ==================== PRACTICE ====================
+      function renderPracticeSectionSelect() {
+        const sel = document.getElementById('practiceSectionSelect');
+        if (!sel) return;
+        const prev = sel.value;
+        const opts = [`<option value="all">Todas las secciones (${state.words.length})</option>`];
+        for (const s of state.sections) {
+          const cnt = state.words.filter(w => w.sectionId === s.id).length;
+          opts.push(`<option value="${escHtml(s.id)}">${escHtml(s.name)} (${cnt})</option>`);
+        }
+        sel.innerHTML = opts.join('');
+        if (prev && Array.from(sel.options).some(o => o.value === prev)) sel.value = prev;
+      }
+
+      function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      async function startPractice(mode, customSubset = null) {
+        const secId = document.getElementById('practiceSectionSelect').value;
+        let pool = customSubset || (secId === 'all' ? [...state.words] : state.words.filter(w => w.sectionId === secId));
+
+        if (mode === 'prep') {
+          pool = pool.filter(w => Array.isArray(w.prepositions) && w.prepositions.length > 0);
+          if (pool.length === 0) {
+            document.getElementById('practiceStage').innerHTML = `
+              <div class="card card-yellow">
+                <p style="font-size:0.85rem;">Ninguna palabra en esta sección tiene preposiciones guardadas todavía. Probá con <strong>Todas las secciones</strong> o guardá verbos/adjetivos con preposiciones (ej. <em>rely on</em>, <em>comply with</em>).</p>
+              </div>`;
+            return;
+          }
+        }
+
+        if (pool.length === 0) {
+          document.getElementById('practiceStage').innerHTML = `
+            <div class="card card-yellow">
+              <p style="font-size:0.85rem;">Esta sección está vacía. Guardá al menos una palabra para empezar a practicar.</p>
+            </div>`;
+          return;
+        }
+
+        const chosen = shuffle(pool).slice(0, 12);
+        let prepSentences = {};
+        if (mode === 'prep') {
+          document.getElementById('practiceStage').innerHTML = `
+            <div class="card" style="text-align:center;padding:18px;">
+              <span class="spinner"></span> <span style="margin-left:8px;font-weight:700;font-size:0.84rem;">Preparando oraciones en contexto...</span>
+            </div>`;
+          if (serverOnline) {
+            const apiRes = await fetchJsonTimeout('/api/practice', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                words: chosen,
+                mode: 'prepositions',
+                aiProvider: aiConfig.provider !== 'none' ? aiConfig.provider : '',
+                aiKey: aiConfig.key || ''
+              })
+            }, 9000);
+            if (apiRes && Array.isArray(apiRes.items)) {
+              for (const it of apiRes.items) prepSentences[it.id] = it;
+            }
+          }
+        }
+
+        const questions = chosen.map((w, idx) => buildQuestion(w, mode, idx, prepSentences[w.id]));
+        practiceSession = {
+          mode,
+          questions,
+          index: 0,
+          correct: 0,
+          mistakes: [],
+          answered: false,
+          flipped: false
+        };
+        renderPracticeStep();
+      }
+
+      function buildQuestion(w, mode, idx, prepOverride) {
+        if (mode === 'mc') {
+          const enToEs = idx % 2 === 0;
+          const correctAns = enToEs ? w.es : w.en;
+          const distractorSource = shuffle([...state.words, ...BUILTIN_DICT]).filter(d => norm(d.en) !== norm(w.en));
+          const distractors = [];
+          for (const d of distractorSource) {
+            const val = enToEs ? d.es : d.en;
+            if (val && norm(val) !== norm(correctAns) && !distractors.some(x => norm(x) === norm(val))) {
+              distractors.push(val);
+            }
+            if (distractors.length >= 3) break;
+          }
+          return {
+            word: w,
+            direction: enToEs ? 'EN → ES' : 'ES → EN',
+            prompt: enToEs ? w.en : w.es,
+            clue: enToEs ? w.defEn : w.defEs,
+            answer: correctAns,
+            options: shuffle([correctAns, ...distractors])
+          };
+        }
+
+        if (mode === 'prep') {
+          const target = w.prepositions[0];
+          let sentence = prepOverride?.sentence || '';
+          if (!sentence) {
+            const ex = w.exampleEn || '';
+            const rx = new RegExp(`\\b(${w.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:s|ed|ing)?)\\s+(${target})\\b`, 'i');
+            sentence = ex && rx.test(ex)
+              ? ex.replace(rx, '$1 ___')
+              : `In daily work, we often ${w.en} ___ this resource.`;
+          }
+          const commonPreps = ['on', 'with', 'for', 'to', 'in', 'of', 'from', 'at', 'by', 'into', 'about', 'upon'];
+          const distractors = shuffle(commonPreps.filter(p => p !== target && !w.prepositions.includes(p))).slice(0, 3);
+          return {
+            word: w,
+            direction: 'Preposición correcta',
+            prompt: sentence,
+            clue: `${w.en} (${w.es})`,
+            answer: target,
+            options: shuffle([target, ...distractors])
+          };
+        }
+
+        if (mode === 'write') {
+          const esToEn = idx % 2 === 1;
+          return {
+            word: w,
+            direction: esToEn ? 'ES → EN (escribí en inglés)' : 'EN → ES (escribí en español)',
+            prompt: esToEn ? w.es : w.en,
+            clue: esToEn ? w.defEs : w.defEn,
+            answer: esToEn ? w.en : w.es
+          };
+        }
+
+        return { word: w, direction: 'Tarjeta', prompt: w.en, answer: w.es };
+      }
+
+      function renderPracticeStep() {
+        const stage = document.getElementById('practiceStage');
+        if (!practiceSession) { stage.innerHTML = ''; return; }
+
+        const { mode, questions, index, correct, mistakes } = practiceSession;
+
+        if (index >= questions.length) {
+          const pct = Math.round((correct / questions.length) * 100);
+          stage.innerHTML = `
+            <div class="card card-mint" style="text-align:center;">
+              <div style="font-family:'Fredoka',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text-main);">
+                ✿ ¡Práctica completada!
+              </div>
+              <p style="font-size:0.95rem;font-weight:700;margin:6px 0;">
+                ${correct} de ${questions.length} correctas (${pct}%)
+              </p>
+              <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;">
+                ${mistakes.length > 0 ? `<button type="button" class="btn-pill yellow" id="retryMistakesBtn">↻ Repetir solo errores (${mistakes.length})</button>` : ''}
+                <button type="button" class="btn-pill royal" id="restartPracticeBtn">Practicar otra vez</button>
+              </div>
+            </div>
+          `;
+          document.getElementById('retryMistakesBtn')?.addEventListener('click', () => {
+            startPractice(mode, mistakes);
+          });
+          document.getElementById('restartPracticeBtn')?.addEventListener('click', () => {
+            startPractice(mode);
+          });
+          return;
+        }
+
+        const q = questions[index];
+        const progressPct = Math.round((index / questions.length) * 100);
+        const headerBar = `
+          <div class="quiz-progress">
+            <span>${index + 1}/${questions.length}</span>
+            <div class="progress-track"><div class="progress-bar" style="width:${progressPct}%"></div></div>
+            <span>✓ ${correct} · ✗ ${mistakes.length}</span>
+          </div>
+        `;
+
+        if (mode === 'mc' || mode === 'prep') {
+          stage.innerHTML = `
+            <div class="card">
+              ${headerBar}
+              <div class="quiz-prompt-box">
+                <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);">${escHtml(q.direction)}</div>
+                <div class="quiz-word">${escHtml(q.prompt)}</div>
+                ${q.clue ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">${escHtml(q.clue)}</div>` : ''}
+              </div>
+              <div class="quiz-options">
+                ${q.options.map(opt => `<button type="button" class="quiz-opt-btn" data-opt="${escHtml(opt)}">${escHtml(opt)}</button>`).join('')}
+              </div>
+              <div id="quizNextRow" style="margin-top:10px;display:none;justify-content:flex-end;">
+                <button type="button" class="btn-pill royal" id="quizNextBtn">Siguiente →</button>
+              </div>
+            </div>
+          `;
+
+          stage.querySelectorAll('.quiz-opt-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              if (practiceSession.answered) return;
+              practiceSession.answered = true;
+              const picked = btn.dataset.opt;
+              const isOk = norm(picked) === norm(q.answer);
+              if (isOk) {
+                practiceSession.correct++;
+                btn.classList.add('correct');
+              } else {
+                btn.classList.add('wrong');
+                practiceSession.mistakes.push(q.word);
+                stage.querySelectorAll('.quiz-opt-btn').forEach(b => {
+                  if (norm(b.dataset.opt) === norm(q.answer)) b.classList.add('correct');
+                });
+              }
+              stage.querySelectorAll('.quiz-opt-btn').forEach(b => { b.disabled = true; });
+              document.getElementById('quizNextRow').style.display = 'flex';
+            });
+          });
+
+          document.getElementById('quizNextBtn').addEventListener('click', () => {
+            practiceSession.index++;
+            practiceSession.answered = false;
+            renderPracticeStep();
+          });
+          return;
+        }
+
+        if (mode === 'write') {
+          stage.innerHTML = `
+            <div class="card">
+              ${headerBar}
+              <div class="quiz-prompt-box">
+                <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);">${escHtml(q.direction)}</div>
+                <div class="quiz-word">${escHtml(q.prompt)}</div>
+                ${q.clue ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">Pista: ${escHtml(q.clue)}</div>` : ''}
+              </div>
+              <div style="display:flex;gap:6px;">
+                <input type="text" id="writeAnswerInput" class="search-input" placeholder="Escribí tu respuesta..." autocomplete="off" />
+                <button type="button" class="btn-pill royal" id="checkWriteBtn">Comprobar</button>
+              </div>
+              <div id="writeFeedback" style="margin-top:9px;font-size:0.84rem;font-weight:700;"></div>
+              <div id="writeNextRow" style="margin-top:10px;display:none;justify-content:flex-end;">
+                <button type="button" class="btn-pill royal" id="writeNextBtn">Siguiente →</button>
+              </div>
+            </div>
+          `;
+          const inp = document.getElementById('writeAnswerInput');
+          inp.focus();
+          const checkFn = () => {
+            if (practiceSession.answered) return;
+            const userVal = norm(inp.value);
+            if (!userVal) return;
+            practiceSession.answered = true;
+            const accepted = q.answer.split('/').map(s => norm(s));
+            const isOk = accepted.some(a => a === userVal || (a.length > 3 && userVal.includes(a)));
+            const fb = document.getElementById('writeFeedback');
+            if (isOk) {
+              practiceSession.correct++;
+              fb.style.color = '#147A53';
+              fb.textContent = `✓ ¡Correcto! Respuesta: ${q.answer}`;
+            } else {
+              practiceSession.mistakes.push(q.word);
+              fb.style.color = '#A33327';
+              fb.textContent = `✗ Era: "${q.answer}"`;
+            }
+            document.getElementById('writeNextRow').style.display = 'flex';
+          };
+          document.getElementById('checkWriteBtn').addEventListener('click', checkFn);
+          inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') checkFn(); });
+          document.getElementById('writeNextBtn').addEventListener('click', () => {
+            practiceSession.index++;
+            practiceSession.answered = false;
+            renderPracticeStep();
+          });
+          return;
+        }
+
+        // Flashcards mode
+        const w = q.word;
+        const flipped = practiceSession.flipped;
+        const prepText = (w.prepositions || []).length > 0 ? `Preposiciones: ${w.prepositions.join(', ')}` : 'Sin preposiciones fijas';
+        stage.innerHTML = `
+          <div class="card">
+            ${headerBar}
+            <div class="flashcard ${flipped ? 'flipped' : ''}" id="flashcardBox">
+              ${!flipped ? `
+                <span class="lang-tag sky">EN</span>
+                <div class="quiz-word" style="font-size:1.45rem;">${escHtml(w.en)}</div>
+                <button type="button" class="speak-btn" id="flashSpeakBtn">🔊 Pronunciar</button>
+                <span style="font-size:0.76rem;color:var(--text-muted);margin-top:6px;">Tocá la tarjeta para ver traducción, definiciones y preposiciones</span>
+              ` : `
+                <span class="lang-tag">ES</span>
+                <div class="quiz-word">${escHtml(w.es)}</div>
+                <div class="prep-tag-sm">${escHtml(prepText)}</div>
+                <div style="font-size:0.8rem;text-align:left;width:100%;margin-top:4px;">
+                  <div><strong>ES:</strong> ${escHtml(w.defEs || '—')}</div>
+                  <div style="margin-top:3px;"><strong>EN:</strong> ${escHtml(w.defEn || '—')}</div>
+                </div>
+              `}
+            </div>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;">
+              <button type="button" class="btn-pill yellow" id="flashMissBtn">↺ Repasar</button>
+              <button type="button" class="btn-pill mint" id="flashKnowBtn">✓ La sabía</button>
+            </div>
+          </div>
+        `;
+        document.getElementById('flashSpeakBtn')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          speakWord(w.en, 'en');
+        });
+        document.getElementById('flashcardBox').addEventListener('click', () => {
+          practiceSession.flipped = !practiceSession.flipped;
+          renderPracticeStep();
+        });
+        document.getElementById('flashKnowBtn').addEventListener('click', () => {
+          practiceSession.correct++;
+          practiceSession.index++;
+          practiceSession.flipped = false;
+          renderPracticeStep();
+        });
+        document.getElementById('flashMissBtn').addEventListener('click', () => {
+          practiceSession.mistakes.push(w);
+          practiceSession.index++;
+          practiceSession.flipped = false;
+          renderPracticeStep();
+        });
+      }
+
+      // ==================== MODALS & DOWNLOAD ====================
+      function openWordModal(wordId = null) {
+        const modal = document.getElementById('wordModalBackdrop');
+        const secSel = document.getElementById('wSecSelect');
+        secSel.innerHTML = state.sections.map(s => `<option value="${escHtml(s.id)}">${escHtml(s.name)}</option>`).join('');
+
+        if (wordId) {
+          const w = state.words.find(x => x.id === wordId);
+          if (!w) return;
+          document.getElementById('wordModalTitle').textContent = '✎ Editar palabra';
+          document.getElementById('editWordId').value = w.id;
+          document.getElementById('wEnInput').value = w.en;
+          document.getElementById('wEsInput').value = w.es;
+          document.getElementById('wPrepsInput').value = (w.prepositions || []).join(', ');
+          document.getElementById('wDefEsInput').value = w.defEs || '';
+          document.getElementById('wDefEnInput').value = w.defEn || '';
+          document.getElementById('wExEnInput').value = w.exampleEn || '';
+          document.getElementById('wFreqInput').value = w.freq || 75;
+          secSel.value = w.sectionId;
+        } else {
+          document.getElementById('wordModalTitle').textContent = '＋ Agregar palabra';
+          document.getElementById('editWordId').value = '';
+          document.getElementById('wEnInput').value = document.getElementById('searchInput').value.trim();
+          document.getElementById('wEsInput').value = '';
+          document.getElementById('wPrepsInput').value = '';
+          document.getElementById('wDefEsInput').value = '';
+          document.getElementById('wDefEnInput').value = '';
+          document.getElementById('wExEnInput').value = '';
+          document.getElementById('wFreqInput').value = 75;
+          if (selectedSectionFilter !== 'all') secSel.value = selectedSectionFilter;
+        }
+        modal.classList.add('open');
+      }
+
+      function downloadStandaloneHtml() {
+        const clone = document.documentElement.cloneNode(true);
+        const clearIds = ['suggestionsBox', 'savedTbody', 'practiceStage', 'toastContainer'];
+        clearIds.forEach(id => {
+          const el = clone.querySelector('#' + id);
+          if (el) el.innerHTML = '';
+        });
+        const oldSeed = clone.querySelector('#pc-seed-data');
+        if (oldSeed) oldSeed.remove();
+        const seedScript = document.createElement('script');
+        seedScript.id = 'pc-seed-data';
+        seedScript.type = 'application/json';
+        seedScript.textContent = JSON.stringify(state);
+        clone.querySelector('body').appendChild(seedScript);
+
+        const htmlOut = '<!DOCTYPE html>\n' + clone.outerHTML;
+        const blob = new Blob([htmlOut], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'lector-bilingue.html';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        showToast('Descargando lector-bilingue.html ✿');
+      }
+
+      // ==================== INIT & EVENTS ====================
+      function initTheme() {
+        const saved = localStorage.getItem(THEME_STORAGE) || 'light';
+        document.documentElement.setAttribute('data-theme', saved);
+        document.getElementById('themeToggleBtn').textContent = saved === 'dark' ? '☀️' : '🌙';
+      }
+
+      async function checkServerHealth() {
+        if (window.location.protocol === 'file:') return;
+        const health = await fetchJsonTimeout('/api/health', {}, 1500);
+        if (health && health.ok) {
+          serverOnline = true;
+          document.getElementById('apiStatusDot').classList.remove('web');
+          document.getElementById('apiStatusText').textContent = 'API en vivo';
+          const remote = await fetchJsonTimeout('/api/data', {}, 2500);
+          if (remote && Array.isArray(remote.sections) && (remote.words?.length || 0) > 0) {
+            state = remote;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            renderSavedView();
+            updateCountBadges();
+          }
+          updateEngineHint();
+        }
+      }
+
+      function bindEvents() {
+        // Tabs
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            activeTab = tab.dataset.tab;
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t === tab));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + activeTab));
+            if (activeTab === 'saved') renderSavedView();
+            if (activeTab === 'practice') renderPracticeSectionSelect();
+          });
+        });
+
+        // Direction pills
+        document.querySelectorAll('.dir-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            currentDir = btn.dataset.dir;
+            document.querySelectorAll('.dir-btn').forEach(b => b.classList.toggle('active', b === btn));
+          });
+        });
+
+        // Search input
+        const inp = document.getElementById('searchInput');
+        const clr = document.getElementById('clearSearchBtn');
+        inp.addEventListener('input', () => {
+          clr.classList.toggle('visible', inp.value.length > 0);
+          renderSuggestions(inp.value);
+        });
+        inp.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') performTranslate(inp.value);
+        });
+        clr.addEventListener('click', () => {
+          inp.value = '';
+          clr.classList.remove('visible');
+          renderSuggestions('');
+          inp.focus();
+        });
+        document.getElementById('translateBtn').addEventListener('click', () => performTranslate(inp.value));
+
+        document.getElementById('pasteBtn').addEventListener('click', async () => {
+          try {
+            const text = await navigator.clipboard.readText();
+            if (text && text.trim()) {
+              inp.value = text.trim();
+              clr.classList.add('visible');
+              performTranslate(inp.value);
+            } else {
+              showToast('El portapapeles está vacío');
+            }
+          } catch {
+            showToast('Pegá con Ctrl+V en el buscador');
+            inp.focus();
+          }
+        });
+
+        document.getElementById('quickAddManualBtn').addEventListener('click', () => openWordModal());
+
+        // Theme toggle
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+          const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', cur);
+          localStorage.setItem(THEME_STORAGE, cur);
+          document.getElementById('themeToggleBtn').textContent = cur === 'dark' ? '☀️' : '🌙';
+        });
+
+        // Download PC
+        document.getElementById('downloadPcBtn').addEventListener('click', downloadStandaloneHtml);
+
+        // AI Modal
+        document.getElementById('openAiModalBtn').addEventListener('click', () => {
+          document.getElementById('aiProviderSelect').value = aiConfig.provider || 'none';
+          document.getElementById('aiKeyInput').value = aiConfig.key || '';
+          document.getElementById('aiModalBackdrop').classList.add('open');
+        });
+        document.getElementById('closeAiModalBtn').addEventListener('click', () => {
+          document.getElementById('aiModalBackdrop').classList.remove('open');
+        });
+        document.getElementById('saveAiBtn').addEventListener('click', () => {
+          saveAiConfig({
+            provider: document.getElementById('aiProviderSelect').value,
+            key: document.getElementById('aiKeyInput').value.trim()
+          });
+          document.getElementById('aiModalBackdrop').classList.remove('open');
+          showToast('Configuración de IA guardada');
+        });
+        document.getElementById('clearAiBtn').addEventListener('click', () => {
+          saveAiConfig({ provider: 'none', key: '' });
+          document.getElementById('aiProviderSelect').value = 'none';
+          document.getElementById('aiKeyInput').value = '';
+          showToast('Clave limpiada');
+        });
+
+        // Guardados controls
+        document.getElementById('savedFilterInput').addEventListener('input', renderSavedView);
+        document.getElementById('newSectionBtn').addEventListener('click', promptCreateSection);
+        document.getElementById('renameSectionBtn').addEventListener('click', () => {
+          const sec = state.sections.find(s => s.id === selectedSectionFilter);
+          if (!sec) return;
+          const next = window.prompt('Nuevo nombre para la sección:', sec.name);
+          if (next && next.trim()) {
+            sec.name = next.trim();
+            sec.updatedAt = Date.now();
+            saveState();
+            renderSavedView();
+            showToast('Sección renombrada');
+          }
+        });
+        document.getElementById('deleteSectionBtn').addEventListener('click', () => {
+          const sec = state.sections.find(s => s.id === selectedSectionFilter);
+          if (!sec) return;
+          if (!window.confirm(`¿Eliminar la sección "${sec.name}" y sus palabras?`)) return;
+          const now = Date.now();
+          state.deleted.sections[sec.id] = now;
+          state.words.forEach(w => {
+            if (w.sectionId === sec.id) state.deleted.words[w.id] = now;
+          });
+          state.sections = state.sections.filter(s => s.id !== sec.id);
+          state.words = state.words.filter(w => w.sectionId !== sec.id);
+          selectedSectionFilter = 'all';
+          saveState();
+          renderSavedView();
+          showToast('Sección eliminada');
+        });
+        document.getElementById('addWordModalBtn').addEventListener('click', () => openWordModal());
+
+        document.getElementById('exportJsonBtn').addEventListener('click', () => {
+          const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'lector-bilingue-respaldo.json';
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          showToast('Respaldo JSON descargado');
+        });
+
+        document.getElementById('importJsonInput').addEventListener('change', (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            try {
+              const parsed = JSON.parse(reader.result);
+              if (Array.isArray(parsed.sections) && Array.isArray(parsed.words)) {
+                state = normalizeState({ ...parsed, updatedAt: Date.now() });
+                saveState();
+                renderSavedView();
+                showToast('Respaldo importado ✿');
+              } else {
+                showToast('Formato JSON inválido');
+              }
+            } catch {
+              showToast('No se pudo leer el archivo JSON');
+            }
+          };
+          reader.readAsText(file);
+        });
+
+        // Word modal
+        document.getElementById('closeWordModalBtn').addEventListener('click', () => {
+          document.getElementById('wordModalBackdrop').classList.remove('open');
+        });
+        document.getElementById('cancelWordModalBtn').addEventListener('click', () => {
+          document.getElementById('wordModalBackdrop').classList.remove('open');
+        });
+        document.getElementById('saveWordModalBtn').addEventListener('click', () => {
+          const en = document.getElementById('wEnInput').value.trim();
+          const es = document.getElementById('wEsInput').value.trim();
+          if (!en || !es) {
+            showToast('Completá al menos Inglés y Español');
+            return;
+          }
+          const preps = document.getElementById('wPrepsInput').value
+            .split(',')
+            .map(s => s.trim().toLowerCase())
+            .filter(Boolean);
+          const editId = document.getElementById('editWordId').value;
+          const now = Date.now();
+          const entry = {
+            id: editId || 'w-' + now,
+            sectionId: document.getElementById('wSecSelect').value || state.sections[0]?.id,
+            en,
+            es,
+            pos: '',
+            prepositions: preps,
+            defEs: document.getElementById('wDefEsInput').value.trim(),
+            defEn: document.getElementById('wDefEnInput').value.trim(),
+            exampleEn: document.getElementById('wExEnInput').value.trim(),
+            exampleEs: '',
+            freq: Math.max(1, Math.min(100, Number(document.getElementById('wFreqInput').value) || 75)),
+            activeLang: 'es',
+            createdAt: now,
+            updatedAt: now
+          };
+          if (editId) {
+            const idx = state.words.findIndex(w => w.id === editId);
+            if (idx >= 0) state.words[idx] = { ...state.words[idx], ...entry, createdAt: state.words[idx].createdAt || now, updatedAt: now };
+          } else {
+            state.words.push(entry);
+          }
+          saveState();
+          renderSavedView();
+          document.getElementById('wordModalBackdrop').classList.remove('open');
+          showToast(editId ? 'Palabra actualizada' : 'Palabra guardada ✿');
+        });
+
+        // Sync modal
+        document.getElementById('openSyncModalBtn').addEventListener('click', () => {
+          document.getElementById('syncTokenInput').value = syncConfig.token || '';
+          document.getElementById('syncGistIdInput').value = syncConfig.gistId || '';
+          setSyncStatusLabel(syncConfig.token ? 'Al día' : 'Sync');
+          document.getElementById('syncModalBackdrop').classList.add('open');
+        });
+        document.getElementById('closeSyncModalBtn').addEventListener('click', () => {
+          document.getElementById('syncModalBackdrop').classList.remove('open');
+        });
+        document.getElementById('saveSyncBtn').addEventListener('click', async () => {
+          const token = document.getElementById('syncTokenInput').value.trim();
+          const gistId = document.getElementById('syncGistIdInput').value.trim();
+          if (!token) {
+            showToast('Pegá tu token de GitHub con permiso gist');
+            return;
+          }
+          saveSyncConfig({ token, gistId, lastSyncAt: 0 });
+          await syncWithCloud(true);
+          document.getElementById('syncGistIdInput').value = syncConfig.gistId || '';
+        });
+        document.getElementById('syncNowBtn').addEventListener('click', async () => {
+          if (!syncConfig.token) {
+            showToast('Primero conectá tu token de GitHub');
+            return;
+          }
+          await syncWithCloud(true);
+        });
+        document.getElementById('disconnectSyncBtn').addEventListener('click', () => {
+          saveSyncConfig({ token: '', gistId: '', lastSyncAt: 0 });
+          document.getElementById('syncTokenInput').value = '';
+          document.getElementById('syncGistIdInput').value = '';
+          showToast('Sincronización desconectada');
+        });
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible' && syncConfig.token && Date.now() - (syncConfig.lastSyncAt || 0) > 20000) {
+            syncWithCloud(false);
+          }
+        });
+
+        // Practice modes
+        document.querySelectorAll('.mode-card').forEach(card => {
+          card.addEventListener('click', () => startPractice(card.dataset.mode));
+        });
+      }
+
+      initTheme();
+      sortWordsByFreq();
+      bindEvents();
+      setSyncStatusLabel(syncConfig.token ? 'Al día' : 'Sync');
+      updateEngineHint();
+      updateCountBadges();
+      renderSuggestions('');
+      renderSavedView();
+      checkServerHealth().then(() => {
+        if (syncConfig.token) syncWithCloud(false);
+      });
+    })();
+  </script>
+</body>
+</html>

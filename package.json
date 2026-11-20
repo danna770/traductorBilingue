@@ -1,0 +1,17 @@
+{
+  "name": "lector-bilingue-en-es",
+  "version": "1.0.0",
+  "description": "Lector Bilingüe EN⇄ES — Compañera de lectura para 1/4 de pantalla con traductor, definiciones en ambos idiomas, preposiciones, frecuencia de uso y prácticas por sección.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "translator",
+    "english",
+    "spanish",
+    "vocabulary",
+    "reading-companion"
+  ],
+  "license": "MIT"
+}
